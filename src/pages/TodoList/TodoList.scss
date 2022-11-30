@@ -1,0 +1,43 @@
+.todolist_container {
+  display: flex;
+  padding: 50px 0;
+  justify-content: center;
+  @media (max-width: 640px) {
+    padding: 20px 0;
+  }
+}
+
+.todolist_content {
+  max-width: 1200px;
+  width: 100%;
+  min-height: 500px;
+  background: linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1);
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.sections_container {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 640px) {
+    flex-direction: column;
+    padding: 0 10px 10px 10px;
+  }
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 33%;
+    @media (max-width: 640px) {
+      width: 100%;
+    }
+  }
+}
+
+.text_status {
+  font-size: 20px;
+  font-weight: bold;
+  @media (max-width: 640px) {
+    margin-top: 20px;
+  }
+}

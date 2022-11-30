@@ -1,0 +1,66 @@
+.todo_id_container {
+  display: flex;
+  padding: 50px 0;
+  justify-content: center;
+  @media (max-width: 640px) {
+    padding: 20px 0;
+  }
+}
+
+.todo_id_content {
+  max-width: 800px;
+  width: 100%;
+  min-height: 500px;
+  background: linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 640px) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.item_info_section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 20px;
+  div {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  span {
+    font-size: 18px;
+    font-weight: normal;
+  }
+  @media (max-width: 640px) {
+    padding-right: 0;
+  }
+}
+
+.Low {
+  color: #707070;
+}
+
+.Normal {
+  color: #000000;
+}
+
+.High {
+  color: #ff4500;
+}
+
+.Highest {
+  color: #ff0000;
+}
+
+.item_img_section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 640px) {
+    margin-top: 20px;
+  }
+}

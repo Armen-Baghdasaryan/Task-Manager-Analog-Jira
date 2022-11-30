@@ -1,0 +1,37 @@
+.todo_item_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: linear-gradient(to left top, rgb(9, 9, 97), rgb(71, 5, 53));
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px 10px;
+  cursor: grab;
+}
+
+.title_section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons_section {
+  display: flex;
+}
+
+.chbox_item {
+  width: 20px;
+  height: 20px;
+}
+
+.todo_title {
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 20px;
+}
+
+.todo_description {
+  overflow: auto;
+  max-height: 100px;
+  text-overflow: ellipsis;
+}
