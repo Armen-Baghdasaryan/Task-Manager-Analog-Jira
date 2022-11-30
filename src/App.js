@@ -6,7 +6,6 @@ import TodoList from "./pages/TodoList/TodoList";
 const App = () => {
   return (
     <>
-           <h1>hhhhh</h1>
       <Routes>
         <Route index element={<MainPage />} />
         <Route path="todolist/:name" element={<TodoList />} />
