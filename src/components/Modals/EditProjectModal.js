@@ -17,9 +17,10 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   padding: "10px",
+  borderRadius: "10px",
 };
 
-const EditProjectModal = ({ project, openEditModal, setOpenEditModal }) => {
+const EditProjectModal = ({ open, setOpen, project }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -36,30 +37,32 @@ const EditProjectModal = ({ project, openEditModal, setOpenEditModal }) => {
     if (name) {
       dispatch(
         editProject({
-          id: project.id,
+          id: project?.id,
           name,
           description,
+          userId: project?.userId,
+          type: project?.type,
         })
       );
 
       setName(project?.name);
       setDescription(project?.description);
-      setOpenEditModal(false);
+      setOpen(false);
     } else {
       toast("Name is a required field!");
     }
   };
 
   const handleClose = () => {
-    setOpenEditModal(false);
     setName(project?.name);
     setDescription(project?.description);
+    setOpen(false);
   };
 
   return (
     <div>
       <Modal
-        open={openEditModal}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

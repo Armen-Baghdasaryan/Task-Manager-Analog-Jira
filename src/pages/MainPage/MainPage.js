@@ -4,10 +4,10 @@ import useAppSelector from "../../hooks/useAppSelector";
 import { getProjects } from "../../redux/actions/actionCreator";
 import Loader from "../../components/Loader/Loader";
 import AddProjectModal from "../../components/Modals/AddProjectModal";
-import DeleteModal from "../../components/Modals/DeleteModal";
+import EditProjectModal from "../../components/Modals/EditProjectModal";
+import DeleteModal from "../../components/Modals/DeleteProjectModal";
 import ProjectItem from "../../components/ProjectItem/ProjectItem";
 import "./MainPage.scss";
-import EditProjectModal from "../../components/Modals/EditProjectModal";
 
 const MainPage = () => {
   const [open, setOpen] = useState(false);
@@ -18,7 +18,9 @@ const MainPage = () => {
 
   const dispatch = useAppDispatch();
   const { projects } = useAppSelector((store) => store.projects);
-  const { isLoadingProjects, ubdateProjects } = useAppSelector((store) => store.loadState);
+  const { isLoadingProjects, ubdateProjects } = useAppSelector(
+    (store) => store.loadState
+  );
 
   useEffect(() => {
     dispatch(getProjects());
@@ -44,12 +46,11 @@ const MainPage = () => {
               Add Project
             </button>
           </div>
-          <div className="display_hide_content">
-            hide
-          </div>
+          <div className="display_hide_content">hide</div>
         </div>
         <div>
           {isLoadingProjects && <Loader />}
+          {JSON.stringify(projects) === "[]" && <h4>No projects yet...</h4>}
           {projects?.map((project) => (
             <ProjectItem
               key={project?.id}
@@ -62,14 +63,14 @@ const MainPage = () => {
       </div>
       <AddProjectModal open={open} setOpen={setOpen} />
       <EditProjectModal
+        open={openEditModal}
+        setOpen={setOpenEditModal}
         project={editItem}
-        openEditModal={openEditModal}
-        setOpenEditModal={setOpenEditModal}
       />
       <DeleteModal
-        openDeleteModal={openDeleteModal}
-        setOpenDeleteModal={setOpenDeleteModal}
-        currentItem={deleteItem}
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        deleteItem={deleteItem}
         type="project"
       />
     </div>

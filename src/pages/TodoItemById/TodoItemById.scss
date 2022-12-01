@@ -22,6 +22,12 @@
   }
 }
 
+.item_buttons_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .item_info_section {
   display: flex;
   flex-direction: column;
@@ -58,9 +64,18 @@
 
 .item_img_section {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 20px;
   @media (max-width: 640px) {
     margin-top: 20px;
+  }
+}
+
+.todo_id_image {
+  width: 350px;
+  height: 480px;
+  @media (max-width: 480px) {
+    width: 300px;
+    height: 420px;
   }
 }

@@ -60,6 +60,7 @@ function* deleteProjectWorker({ id }) {
     const res = yield deleteDoc(doc(db, "projects", id));
     yield res;
     yield put(ubdateProjects());
+    toast("Project was deleted")
   } catch (err) {
     toast(err.message || "Something went wrong");
   }
@@ -72,6 +73,7 @@ function* editProjectWorker({ props }) {
     });
     yield res;
     yield put(ubdateProjects());
+    toast("Changes saved")
   } catch (err) {
     toast(err.message || "Something went wrong");
   }

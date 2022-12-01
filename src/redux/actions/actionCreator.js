@@ -77,6 +77,10 @@ export const loadStateTodos = (payload) => {
   return { type: "LOADING_DATA_TODOS", payload };
 };
 
+export const successTodos = (payload) => {
+  return { type: "SUCCESS_TODOS", payload };
+};
+
 export const ubdateProjects = () => {
   return { type: "UBDATE_PROJECTS" };
 };

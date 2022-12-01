@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Typography } from "@mui/material";
 import useAppDispatch from "../../hooks/useAppDispatch";
-import { deleteProject } from "../../redux/actions/actionCreator";
+import { deleteTodo } from "../../redux/actions/actionCreator";
 
 const style = {
   position: "absolute",
@@ -16,29 +16,25 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   padding: "10px",
+  borderRadius: "10px",
 };
 
-const DeleteModal = ({
-  openDeleteModal,
-  setOpenDeleteModal,
-  currentItem,
-  type,
-}) => {
+const DeleteModal = ({ open, setOpen, deleteItem, type }) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteProject(currentItem?.id));
-    setOpenDeleteModal(false);
+    dispatch(deleteTodo(deleteItem?.id));
+    setOpen(false);
   };
 
   const handleClose = () => {
-    setOpenDeleteModal(false);
+    setOpen(false);
   };
 
   return (
     <div>
       <Modal
-        open={openDeleteModal}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -53,7 +49,7 @@ const DeleteModal = ({
               <Typography
                 sx={{ color: "#707070", fontStyle: "italic", margin: "0 10px" }}
               >
-                {currentItem?.name}
+                {deleteItem?.title}
               </Typography>
               {""}
               {type}?

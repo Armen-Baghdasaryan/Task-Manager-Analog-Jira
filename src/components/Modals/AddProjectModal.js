@@ -17,6 +17,7 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   padding: "10px",
+  borderRadius: "10px",
 };
 
 const AddProjectModal = ({ open, setOpen }) => {
@@ -30,9 +31,10 @@ const AddProjectModal = ({ open, setOpen }) => {
     if (name) {
       dispatch(
         createProject({
-          userId: Math.random().toString(),
           name,
           description,
+          userId: Math.random().toString(),
+          type: "project",
         })
       );
       setName("");

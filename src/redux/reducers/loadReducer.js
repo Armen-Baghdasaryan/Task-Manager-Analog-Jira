@@ -1,10 +1,12 @@
 const initialState = {
   isLoadingProjects: false,
-  isLoadingTodos: false,
-  isSuccess: false,
+  isSuccessProject: false,
   ubdateProjects: false,
+  isLoadingTodos: false,
+  isSuccessTodo: false,
   ubdateTodos: false,
-  isError: "",
+  isErrorProject: "",
+  isErrorTodo: "",
 };
 
 const loaderReducer = (state = initialState, { type, payload }) => {
@@ -28,6 +30,11 @@ const loaderReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         ubdateTodos: !state.ubdateTodos,
+      };
+    case "SUCCESS_TODOS":
+      return {
+        ...state,
+        isSuccessTodo: payload,
       };
     default:
       return state;

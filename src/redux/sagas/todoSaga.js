@@ -13,6 +13,7 @@ import { takeEvery, put } from "redux-saga/effects";
 import {
   loadStateTodos,
   setTodos,
+  successTodos,
   ubdateTodos,
 } from "../actions/actionCreator";
 
@@ -60,6 +61,8 @@ function* deleteTodoWorker({ id }) {
     const res = yield deleteDoc(doc(db, "todos", id));
     yield res;
     yield put(ubdateTodos());
+    yield put(successTodos(true));
+    toast("Todo was deleted");
   } catch (err) {
     toast(err.message || "Something went wrong");
   }
@@ -72,6 +75,8 @@ function* editTodoWorker({ props }) {
     });
     yield res;
     yield put(ubdateTodos());
+    yield put(successTodos(true));
+    toast("Changes saved");
   } catch (err) {
     toast(err.message || "Something went wrong");
   }
