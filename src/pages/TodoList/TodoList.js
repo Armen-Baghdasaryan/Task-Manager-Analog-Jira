@@ -14,6 +14,7 @@ const TodoList = () => {
   const { isLoadingTodos, ubdateTodos } = useAppSelector(
     (store) => store.loadState
   );
+
   const { name } = useParams();
 
   const dispatch = useDispatch();
@@ -21,6 +22,18 @@ const TodoList = () => {
   useEffect(() => {
     dispatch(getTodos());
   }, [dispatch, ubdateTodos]);
+
+  const queueTodos = todos.filter(
+    (todo) => todo?.status === "Queue" && todo?.projectName === name
+  );
+
+  const developmentTodos = todos.filter(
+    (todo) => todo?.status === "Development" && todo?.projectName === name
+  );
+
+  const doneTodos = todos.filter(
+    (todo) => todo?.status === "Done" && todo?.projectName === name
+  );
 
   return (
     <>
@@ -46,38 +59,35 @@ const TodoList = () => {
           <div className="sections_container">
             <section>
               <span className="text_status">Queue</span>
+              {JSON.stringify(queueTodos) === "[]" && (
+                <h5 className="not_todos">No tasks yet</h5>
+              )}
               <div className="section_item_container">
-                {todos?.map(
-                  (todo) =>
-                    todo?.status === "Queue" &&
-                    todo?.projectName === name && (
-                      <TodoItem key={todo?.id} todo={todo} name={name} />
-                    )
-                )}
+                {queueTodos?.map((todo) => (
+                  <TodoItem key={todo?.id} todo={todo} name={name} />
+                ))}
               </div>
             </section>
             <section>
               <span className="text_status">Development</span>
+              {JSON.stringify(developmentTodos) === "[]" && (
+                <h5 className="not_todos">No tasks yet</h5>
+              )}
               <div className="section_item_container">
-                {todos?.map(
-                  (todo) =>
-                    todo?.status === "Development" &&
-                    todo?.projectName === name && (
-                      <TodoItem key={todo?.id} todo={todo} name={name} />
-                    )
-                )}
+                {developmentTodos?.map((todo) => (
+                  <TodoItem key={todo?.id} todo={todo} name={name} />
+                ))}
               </div>
             </section>
             <section>
               <span className="text_status">Done</span>
+              {JSON.stringify(doneTodos) === "[]" && (
+                <h5 className="not_todos">No tasks yet</h5>
+              )}
               <div className="section_item_container">
-                {todos?.map(
-                  (todo) =>
-                    todo?.status === "Done" &&
-                    todo?.projectName === name && (
-                      <TodoItem key={todo?.id} todo={todo} name={name} />
-                    )
-                )}
+                {doneTodos?.map((todo) => (
+                  <TodoItem key={todo?.id} todo={todo} name={name} />
+                ))}
               </div>
             </section>
           </div>

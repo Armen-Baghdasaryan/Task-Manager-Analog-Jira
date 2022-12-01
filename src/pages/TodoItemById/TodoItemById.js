@@ -83,11 +83,22 @@ const TodoItemById = () => {
           </section>
 
           <section className="item_img_section">
-            <img
-              alt="img"
-              className="todo_id_image"
-              src={currentTodo?.imgUrl || emptyPhoto}
-            />
+            <a
+              href={`${currentTodo?.imgUrl ? currentTodo?.imgUrl : "#"}`}
+              target={`${currentTodo?.imgUrl && "blank"}`}
+            >
+              <img
+                alt="img"
+                className="todo_id_image"
+                src={currentTodo?.imgUrl || emptyPhoto}
+                srcSet={`${currentTodo?.imgUrl || emptyPhoto} 580w, ${
+                  currentTodo?.imgUrl || emptyPhoto
+                } 1200w`}
+                // srcSet={`${Another Image || Another Image} 580w, ${
+                //   currentTodo?.imgUrl || emptyPhoto
+                // } 1200w`}
+              />
+            </a>
           </section>
         </div>
       </div>

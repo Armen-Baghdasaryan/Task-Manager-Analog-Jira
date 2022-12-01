@@ -44,7 +44,7 @@ const DeleteModal = ({ open, setOpen, deleteItem, type }) => {
             <h3>Delete</h3>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               Delete{" "}
               <Typography
                 sx={{ color: "#707070", fontStyle: "italic", margin: "0 10px" }}
@@ -54,7 +54,13 @@ const DeleteModal = ({ open, setOpen, deleteItem, type }) => {
               {""}
               {type}?
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <button
                 className="btn_content btn_margin btn_delete"
                 onClick={handleDelete}

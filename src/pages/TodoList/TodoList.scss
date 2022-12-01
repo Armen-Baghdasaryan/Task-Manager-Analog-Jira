@@ -33,6 +33,7 @@
   justify-content: space-between;
   @media (max-width: 640px) {
     flex-direction: column;
+    gap: 20px;
   }
   section {
     width: 33%;
@@ -46,7 +47,10 @@
   display: inline-block;
   font-size: 20px;
   font-weight: bold;
-  @media (max-width: 640px) {
-    margin-top: 10px;
-  }
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.not_todos {
+  margin-left: 5px;
 }
