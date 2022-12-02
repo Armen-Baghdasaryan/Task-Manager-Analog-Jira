@@ -2,7 +2,7 @@
   display: flex;
   padding: 50px 0;
   justify-content: center;
-  @media (max-width: 640px) {
+  @media (max-width: 580px) {
     padding: 20px 0;
   }
 }
@@ -13,7 +13,7 @@
   min-height: 500px;
   background: linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1);
   border-radius: 15px;
-  padding: 10px;
+  padding: 10px 10px 20px;
 }
 
 .project_header {
@@ -31,16 +31,23 @@
 .sections_container {
   display: flex;
   justify-content: space-between;
-  @media (max-width: 640px) {
+  @media (max-width: 580px) {
     flex-direction: column;
     gap: 20px;
   }
   section {
     width: 33%;
-    @media (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: 580px) {
       width: 100%;
     }
   }
+}
+
+.section_item_container {
+  width: 100%;
 }
 
 .text_status {

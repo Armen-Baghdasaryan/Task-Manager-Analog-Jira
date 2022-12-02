@@ -5,7 +5,7 @@ import Loader from "../../components/Loader/Loader";
 import AddTodoModal from "../../components/Modals/AddTodoModal";
 import TodoItem from "../../components/TodoItem/TodoItem";
 import useAppSelector from "../../hooks/useAppSelector";
-import { getTodos } from "../../redux/actions/actionCreator";
+import { getTodos, editTodos } from "../../redux/actions/actionCreator";
 import "./TodoList.scss";
 
 const TodoList = () => {
@@ -14,7 +14,6 @@ const TodoList = () => {
   const { isLoadingTodos, ubdateTodos } = useAppSelector(
     (store) => store.loadState
   );
-
   const { name } = useParams();
 
   const dispatch = useDispatch();
@@ -34,6 +33,91 @@ const TodoList = () => {
   const doneTodos = todos.filter(
     (todo) => todo?.status === "Done" && todo?.projectName === name
   );
+
+  // Drag and Drop
+  const boards = [
+    { id: 1, title: "Queue", items: queueTodos },
+    { id: 2, title: "Development", items: developmentTodos },
+    { id: 3, title: "Done", items: doneTodos },
+  ];
+
+  const [currentBoard, setCurrentBoard] = useState(null);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [finishBoard, setFinishBoard] = useState(null);
+
+  function dragOverHandler(e) {
+    e.preventDefault();
+    if (e.target.className === "item_cont")
+      e.target.style.boxShadow = "0 4px 3px gray";
+  }
+
+  function dragLeaveHandler(e) {
+    e.target.style.boxShadow = "none";
+  }
+
+  function dragStartHandler(e, board, item) {
+    setCurrentBoard(board);
+    setCurrentItem(item);
+  }
+
+  function dragEndHandler(e) {
+    e.target.style.boxShadow = "none";
+  }
+
+  function dropHandler(e, board, item) {
+    e.preventDefault();
+    const currentIndex = currentBoard.items.indexOf(currentItem);
+    currentBoard.items.splice(currentIndex, 1);
+    const dropIndex = board.items.indexOf(item);
+    board.items.splice(dropIndex + 1, 0, currentItem);
+
+    // setBoards(
+    boards.map((b) => {
+      if (b.id === board.id) {
+        return board;
+      }
+      if (b.id === currentBoard.id) {
+        return currentBoard;
+      }
+
+      return b;
+    });
+    // );
+    setFinishBoard(board);
+  }
+
+  function dropCardHandler(e, board) {
+    board.items.push(currentItem);
+    const currentIndex = currentBoard.items.indexOf(currentItem);
+    currentBoard.items.splice(currentIndex, 1);
+    // setBoards(
+    boards.map((b) => {
+      if (b.id === board.id) {
+        return board;
+      }
+      if (b.id === currentBoard.id) {
+        return currentBoard;
+      }
+      return b;
+    });
+    // );
+    setFinishBoard(board);
+  }
+
+  useEffect(() => {
+    currentItem &&
+      finishBoard &&
+      dispatch(
+        editTodos({
+          ...currentItem,
+          status: finishBoard?.title,
+        })
+      );
+    setTimeout(() => {
+      setCurrentItem(null);
+      setFinishBoard(null);
+    }, 1500);
+  }, [dispatch, currentItem, finishBoard, finishBoard?.title]);
 
   return (
     <>
@@ -57,39 +141,33 @@ const TodoList = () => {
           {isLoadingTodos && <Loader />}
 
           <div className="sections_container">
-            <section>
-              <span className="text_status">Queue</span>
-              {JSON.stringify(queueTodos) === "[]" && (
-                <h5 className="not_todos">No tasks yet</h5>
-              )}
-              <div className="section_item_container">
-                {queueTodos?.map((todo) => (
-                  <TodoItem key={todo?.id} todo={todo} name={name} />
-                ))}
-              </div>
-            </section>
-            <section>
-              <span className="text_status">Development</span>
-              {JSON.stringify(developmentTodos) === "[]" && (
-                <h5 className="not_todos">No tasks yet</h5>
-              )}
-              <div className="section_item_container">
-                {developmentTodos?.map((todo) => (
-                  <TodoItem key={todo?.id} todo={todo} name={name} />
-                ))}
-              </div>
-            </section>
-            <section>
-              <span className="text_status">Done</span>
-              {JSON.stringify(doneTodos) === "[]" && (
-                <h5 className="not_todos">No tasks yet</h5>
-              )}
-              <div className="section_item_container">
-                {doneTodos?.map((todo) => (
-                  <TodoItem key={todo?.id} todo={todo} name={name} />
-                ))}
-              </div>
-            </section>
+            {boards?.map((board, idx) => (
+              <section
+                onDragOver={(e) => dragOverHandler(e)}
+                onDrop={(e) => dropCardHandler(e, board)}
+                key={idx}
+              >
+                <span className="text_status">{board?.title}</span>
+                {JSON.stringify(board?.todos) === "[]" && (
+                  <h5 className="not_todos">No tasks yet</h5>
+                )}
+                <div className="section_item_container">
+                  {board?.items?.map((item, idx) => (
+                    <div
+                      onDragOver={(e) => dragOverHandler(e)}
+                      onDragLeave={(e) => dragLeaveHandler(e)}
+                      onDragStart={(e) => dragStartHandler(e, board, item)}
+                      onDragEnd={(e) => dragEndHandler(e)}
+                      onDrop={(e) => dropHandler(e, board, item)}
+                      draggable={true}
+                      key={idx}
+                    >
+                      <TodoItem key={item?.id} todo={item} name={name} />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
         </div>
       </div>

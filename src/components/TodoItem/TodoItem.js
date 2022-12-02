@@ -8,7 +8,7 @@ const TodoItem = ({ todo, name }) => {
     <div className="todo_item_container">
       <div className="title_section">
         <div>
-          {todo?.status !== "Queue" && (
+          {todo?.status === "Development" && (
             <input type="checkbox" className="chbox_item" />
           )}
         </div>
