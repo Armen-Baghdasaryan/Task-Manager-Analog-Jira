@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import { getTodos, ubdateTodo } from "../../redux/actions/actionCreator";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import "./Comments.scss";
-import useAppDispatch from "../../hooks/useAppDispatch";
-import { getTodos, ubdateTodo } from "../../redux/actions/actionCreator";
 
 const Comments = ({ currentUserId, currentTodo }) => {
   const [activeComment, setActiveComment] = useState(null);

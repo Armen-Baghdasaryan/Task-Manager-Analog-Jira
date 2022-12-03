@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { TextField } from "@mui/material";
+import { getTodos, editTodos } from "../../redux/actions/actionCreator";
+import SearchIcon from "@mui/icons-material/Search";
+import useAppSelector from "../../hooks/useAppSelector";
 import Loader from "../../components/Loader/Loader";
 import AddTodoModal from "../../components/Modals/AddTodoModal";
 import TodoItem from "../../components/TodoItem/TodoItem";
-import useAppSelector from "../../hooks/useAppSelector";
-import { getTodos, editTodos } from "../../redux/actions/actionCreator";
 import "./TodoList.scss";
 
 const TodoList = () => {
   const [showAddTodoModal, setShowTodoModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [search, setSearch] = useState("");
   const { todos } = useAppSelector((store) => store.todos);
   const { isLoadingTodos, ubdateTodos } = useAppSelector(
     (store) => store.loadState
@@ -115,7 +119,26 @@ const TodoList = () => {
         <div className="todolist_content">
           <div className="project_header">
             <span className="project_name_text">{name}</span>
-            <div>
+            <div className="btn_container">
+              <div className={showSearch ? "search_container" : null}>
+                {!showSearch ? (
+                  <SearchIcon
+                    onClick={() => setShowSearch(true)}
+                    className="search_icon"
+                  />
+                ) : (
+                  <TextField
+                    size="small"
+                    color="info"
+                    id="outlined-basic"
+                    label="Search"
+                    variant="filled"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onBlur={(e) => e.isTrusted && setShowSearch(false)}
+                  />
+                )}
+              </div>
               <button
                 className="btn_content btn_margin"
                 onClick={() => setShowTodoModal(true)}
@@ -142,19 +165,26 @@ const TodoList = () => {
                   <h5 className="not_todos">No tasks yet</h5>
                 )}
                 <div className="section_item_container">
-                  {board?.items?.map((item, idx) => (
-                    <div
-                      onDragOver={(e) => dragOverHandler(e)}
-                      onDragLeave={(e) => dragLeaveHandler(e)}
-                      onDragStart={(e) => dragStartHandler(e, board, item)}
-                      onDragEnd={(e) => dragEndHandler(e)}
-                      onDrop={(e) => dropHandler(e, board, item)}
-                      draggable={true}
-                      key={idx}
-                    >
-                      <TodoItem key={item?.id} todo={item} name={name} />
-                    </div>
-                  ))}
+                  {board?.items
+                    ?.filter((item) => {
+                      return search.toLowerCase() === ""
+                        ? item
+                        : item.title.toLowerCase().includes(search) ||
+                            item.number.includes(search);
+                    })
+                    .map((item, idx) => (
+                      <div
+                        onDragOver={(e) => dragOverHandler(e)}
+                        onDragLeave={(e) => dragLeaveHandler(e)}
+                        onDragStart={(e) => dragStartHandler(e, board, item)}
+                        onDragEnd={(e) => dragEndHandler(e)}
+                        onDrop={(e) => dropHandler(e, board, item)}
+                        draggable={true}
+                        key={idx}
+                      >
+                        <TodoItem key={item?.id} todo={item} name={name} />
+                      </div>
+                    ))}
                 </div>
               </section>
             ))}

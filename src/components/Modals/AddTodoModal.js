@@ -88,7 +88,7 @@ const AddTodoModal = ({ open, setOpen, name }) => {
           status: "Queue",
           projectName: name,
           completed: false,
-          todoId: Math.random().toString(),
+          todoId: Math.random().toString(36).substr(2, 9),
           type: "todo",
           comments: [],
           subTodos: [],

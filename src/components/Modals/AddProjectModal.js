@@ -33,7 +33,7 @@ const AddProjectModal = ({ open, setOpen }) => {
         createProject({
           name,
           description,
-          projectId: Math.random().toString(),
+          projectId: Math.random().toString(36).substr(2, 9),
           type: "project",
           createdAt: new Date(),
         })

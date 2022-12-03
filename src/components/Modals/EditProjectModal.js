@@ -31,7 +31,7 @@ const EditProjectModal = ({ open, setOpen, project }) => {
     setDescription(project?.description || "");
   }, [project, project?.name, project?.description]);
 
-  const handleSubmit = (e, id) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (name) {

@@ -20,12 +20,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 50px;
   margin-bottom: 10px;
 }
 
 .project_name_text {
   font-size: 22px;
   font-weight: bold;
+  margin-right: 10px;
+}
+
+.btn_container {
+  display: flex;
+  align-items: center;
 }
 
 .sections_container {
