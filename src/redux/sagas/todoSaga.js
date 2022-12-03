@@ -22,7 +22,8 @@ function* projectSaga() {
   yield takeEvery("CREATE_TODO", createTodotWorker);
   yield takeEvery("GET_TODOS", getTodosWorker);
   yield takeEvery("DELETE_TODO", deleteTodoWorker);
-  yield takeEvery("EDIT_TODOS", editTodoWorker);
+  yield takeEvery("EDIT_TODO", editTodoWorker);
+  yield takeEvery("UBDATE_TODO", ubdateTodoWorker);
 }
 
 // workers
@@ -79,6 +80,18 @@ function* editTodoWorker({ props }) {
     toast("Changes saved");
   } catch (err) {
     toast(err.message || "Something went wrong");
+  }
+}
+
+function* ubdateTodoWorker({ props }) {
+  try {
+    const res = yield setDoc(doc(db, "todos", props.id), {
+      ...props,
+    });
+    yield res;
+    yield put(ubdateTodos());
+  } catch (err) {
+    toast("Comments: Something went wrong");
   }
 }
 

@@ -25,6 +25,20 @@
 
 .buttons_section {
   display: flex;
+  align-items: center;
+}
+
+.icon_container {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  span {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    margin-left: 2px;
+    font-size: small;
+  }
 }
 
 .chbox_item {

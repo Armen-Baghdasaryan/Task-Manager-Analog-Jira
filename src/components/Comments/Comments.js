@@ -3,8 +3,7 @@ import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import "./Comments.scss";
 import useAppDispatch from "../../hooks/useAppDispatch";
-import { getTodos } from "../../redux/actions/actionCreator";
-import { createComment } from "../../redux/actions/actionCreator";
+import { getTodos, ubdateTodo } from "../../redux/actions/actionCreator";
 
 const Comments = ({ currentUserId, currentTodo }) => {
   const [activeComment, setActiveComment] = useState(null);
@@ -51,7 +50,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
     setActiveComment(null);
 
     dispatch(
-      createComment({
+      ubdateTodo({
         ...curTodo,
         comments: [
           ...curTodo?.comments,
@@ -59,8 +58,8 @@ const Comments = ({ currentUserId, currentTodo }) => {
             id: Math.random().toString(36).substr(2, 9),
             body: text,
             parentId,
-            userId: "1", // currentUser.id
-            username: curUser?.name || "John",
+            userId: curUser?.userId || "1",
+            username: curUser?.name || "Armen",
             createdAt: new Date().toISOString(),
           },
         ],
@@ -74,7 +73,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
   const updateComment = (text, commentId) => {
     setActiveComment(null);
     dispatch(
-      createComment({
+      ubdateTodo({
         ...curTodo,
         comments: [
           ...curTodo?.comments?.map((item) =>
@@ -90,7 +89,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
 
   const deleteComment = (commentId) => {
     dispatch(
-      createComment({
+      ubdateTodo({
         ...curTodo,
         comments: [
           ...curTodo?.comments?.filter((item) => item?.id !== commentId),
@@ -100,7 +99,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
 
     setTimeout(() => {
       setIsUbdate(!isUbdate);
-    }, 500);
+    }, 1000);
   };
 
   const handleShow = () => {
@@ -111,6 +110,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
     <div className="comments">
       <div className="comments-title" onClick={handleShow}>
         Comments..
+        <span className="comments_count">{curTodo?.comments?.length}</span>
       </div>
       {visiable && (
         <>

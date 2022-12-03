@@ -56,7 +56,14 @@ export const setTodos = (payload) => {
 
 export const editTodos = (props) => {
   return {
-    type: "EDIT_TODOS",
+    type: "EDIT_TODO",
+    props,
+  };
+};
+
+export const ubdateTodo = (props) => {
+  return {
+    type: "UBDATE_TODO",
     props,
   };
 };
@@ -65,14 +72,6 @@ export const deleteTodo = (id) => {
   return {
     type: "DELETE_TODO",
     id,
-  };
-};
-
-// COMMENTS
-export const createComment = (props) => {
-  return {
-    type: "CREATE_TODO_COMMENT",
-    props,
   };
 };
 

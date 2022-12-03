@@ -83,9 +83,9 @@ const TodoItemById = () => {
             <div>
               Status - <span>{currentTodo?.status}</span>
             </div>
-
-            <div>
-              <Comments currentUserId="1" currentTodo={currentTodo} />
+            
+            <div> 
+              <Comments currentUserId="1" currentTodo={currentTodo} /> {/* currentUserId: currentUser.id*/}
             </div>
           </section>
 

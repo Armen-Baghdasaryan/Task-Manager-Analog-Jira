@@ -45,26 +45,20 @@ const TodoList = () => {
   const [currentItem, setCurrentItem] = useState(null);
   const [finishBoard, setFinishBoard] = useState(null);
 
-  function dragOverHandler(e) {
+  const dragOverHandler = (e) => {
     e.preventDefault();
-    if (e.target.className === "item_cont")
-      e.target.style.boxShadow = "0 4px 3px gray";
-  }
+  };
 
-  function dragLeaveHandler(e) {
-    e.target.style.boxShadow = "none";
-  }
+  const dragLeaveHandler = (e) => {};
 
-  function dragStartHandler(e, board, item) {
+  const dragStartHandler = (e, board, item) => {
     setCurrentBoard(board);
     setCurrentItem(item);
-  }
+  };
 
-  function dragEndHandler(e) {
-    e.target.style.boxShadow = "none";
-  }
+  const dragEndHandler = (e) => {};
 
-  function dropHandler(e, board, item) {
+  const dropHandler = (e, board, item) => {
     e.preventDefault();
     const currentIndex = currentBoard.items.indexOf(currentItem);
     currentBoard.items.splice(currentIndex, 1);
@@ -82,9 +76,9 @@ const TodoList = () => {
       return b;
     });
     setFinishBoard(board);
-  }
+  };
 
-  function dropCardHandler(e, board) {
+  const dropCardHandler = (e, board) => {
     board.items.push(currentItem);
     const currentIndex = currentBoard.items.indexOf(currentItem);
     currentBoard.items.splice(currentIndex, 1);
@@ -98,7 +92,7 @@ const TodoList = () => {
       return b;
     });
     setFinishBoard(board);
-  }
+  };
 
   useEffect(() => {
     currentItem &&
