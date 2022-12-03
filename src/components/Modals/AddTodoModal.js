@@ -88,8 +88,10 @@ const AddTodoModal = ({ open, setOpen, name }) => {
           status: "Queue",
           projectName: name,
           completed: false,
-          userId: Math.random().toString(),
+          todoId: Math.random().toString(),
           type: "todo",
+          comments: [],
+          subTodos: [],
         })
       );
 

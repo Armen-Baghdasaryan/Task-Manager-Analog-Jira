@@ -68,6 +68,14 @@ export const deleteTodo = (id) => {
   };
 };
 
+// COMMENTS
+export const createComment = (props) => {
+  return {
+    type: "CREATE_TODO_COMMENT",
+    props,
+  };
+};
+
 // LOAD STATE
 export const loadStateProjects = (payload) => {
   return { type: "LOADING_DATA_PROJECTS", payload };

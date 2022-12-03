@@ -3,6 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import reducer from "./reducers";
 import todoSaga from "./sagas/todoSaga";
 import projectSaga from "./sagas/projectSaga";
+import commentSaga from "./sagas/commentSaga";
 import { fork } from "redux-saga/effects";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -22,6 +23,7 @@ const configureStore = (preloadedState) =>
 function* rootSaga() {
   yield fork(todoSaga);
   yield fork(projectSaga);
+  yield fork(commentSaga);
 }
 
 const store = configureStore({});

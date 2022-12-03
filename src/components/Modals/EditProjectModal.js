@@ -37,11 +37,10 @@ const EditProjectModal = ({ open, setOpen, project }) => {
     if (name) {
       dispatch(
         editProject({
-          id: project?.id,
+          ...project,
           name,
           description,
-          userId: project?.userId,
-          type: project?.type,
+          editedAt: new Date(),
         })
       );
 

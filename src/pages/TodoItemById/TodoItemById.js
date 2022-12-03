@@ -7,6 +7,7 @@ import DeleteModal from "../../components/Modals/DeleteTodoModal";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { successTodos } from "../../redux/actions/actionCreator";
 import EditTodoModal from "../../components/Modals/EditTodoModal";
+import Comments from "../../components/Comments/Comments";
 
 const TodoItemById = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -17,6 +18,8 @@ const TodoItemById = () => {
   const { isSuccessTodo } = useAppSelector((store) => store.loadState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  // const createdAt = new Date(comment.createdAt).toLocaleDateString();
 
   useEffect(() => {
     if (isSuccessTodo) {
@@ -80,6 +83,10 @@ const TodoItemById = () => {
             <div>
               Status - <span>{currentTodo?.status}</span>
             </div>
+
+            <div>
+              <Comments currentUserId="1" currentTodo={currentTodo} />
+            </div>
           </section>
 
           <section className="item_img_section">
@@ -94,9 +101,9 @@ const TodoItemById = () => {
                 srcSet={`${currentTodo?.imgUrl || emptyPhoto} 580w, ${
                   currentTodo?.imgUrl || emptyPhoto
                 } 1200w`}
+                //-->
                 // srcSet={`${Another Image || Another Image} 580w, ${
-                //   currentTodo?.imgUrl || emptyPhoto
-                // } 1200w`}
+                //   currentTodo?.imgUrl || emptyPhoto } 1200w`}
               />
             </a>
           </section>

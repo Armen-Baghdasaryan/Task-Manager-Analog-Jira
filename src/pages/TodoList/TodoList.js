@@ -71,7 +71,6 @@ const TodoList = () => {
     const dropIndex = board.items.indexOf(item);
     board.items.splice(dropIndex + 1, 0, currentItem);
 
-    // setBoards(
     boards.map((b) => {
       if (b.id === board.id) {
         return board;
@@ -82,7 +81,6 @@ const TodoList = () => {
 
       return b;
     });
-    // );
     setFinishBoard(board);
   }
 
@@ -90,7 +88,6 @@ const TodoList = () => {
     board.items.push(currentItem);
     const currentIndex = currentBoard.items.indexOf(currentItem);
     currentBoard.items.splice(currentIndex, 1);
-    // setBoards(
     boards.map((b) => {
       if (b.id === board.id) {
         return board;
@@ -100,7 +97,6 @@ const TodoList = () => {
       }
       return b;
     });
-    // );
     setFinishBoard(board);
   }
 
@@ -148,7 +144,7 @@ const TodoList = () => {
                 key={idx}
               >
                 <span className="text_status">{board?.title}</span>
-                {JSON.stringify(board?.todos) === "[]" && (
+                {JSON.stringify(board?.items) === "[]" && (
                   <h5 className="not_todos">No tasks yet</h5>
                 )}
                 <div className="section_item_container">

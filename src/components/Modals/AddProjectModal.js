@@ -33,8 +33,9 @@ const AddProjectModal = ({ open, setOpen }) => {
         createProject({
           name,
           description,
-          userId: Math.random().toString(),
+          projectId: Math.random().toString(),
           type: "project",
+          createdAt: new Date(),
         })
       );
       setName("");

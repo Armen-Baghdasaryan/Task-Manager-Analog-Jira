@@ -93,19 +93,14 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
     if (number && title && description) {
       dispatch(
         editTodos({
-          id: editItem?.id,
+          ...editItem,
           number,
           title,
           description,
-          createdAt: editItem?.createdAt,
+          ubdatedAt: new Date(),
           finishDate: finishDate.toString() || editItem?.finishDate,
           priority,
           imgUrl: uploadImg,
-          status: editItem?.status,
-          projectName: editItem?.projectName,
-          completed: false,
-          userId: Math.random().toString(),
-          type: editItem?.type,
         })
       );
 
