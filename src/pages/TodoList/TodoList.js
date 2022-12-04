@@ -7,8 +7,8 @@ import {
   editTodos,
   getProjects,
 } from "../../redux/actions/actionCreator";
-import SearchIcon from "@mui/icons-material/Search";
 import useAppSelector from "../../hooks/useAppSelector";
+import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../../components/Loader/Loader";
 import AddTodoModal from "../../components/Modals/AddTodoModal";
 import TodoItem from "../../components/TodoItem/TodoItem";

@@ -39,10 +39,6 @@ const TodoItemById = () => {
 
   const timeAgo = moment(currentTodo?.createdAt).fromNow();
 
-  moment().startOf("minute").fromNow();
-  moment().endOf("day").fromNow();
-  moment().startOf("hour").fromNow();
-
   useEffect(() => {
     if (isSuccessTodo) {
       navigate(`/todolist/${projectId}`);

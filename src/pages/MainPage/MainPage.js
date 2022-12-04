@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useAppDispatch from "../../hooks/useAppDispatch";
-import useAppSelector from "../../hooks/useAppSelector";
 import { getProjects } from "../../redux/actions/actionCreator";
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import useAppSelector from "../../hooks/useAppSelector";
 import Loader from "../../components/Loader/Loader";
 import AddProjectModal from "../../components/Modals/AddProjectModal";
 import EditProjectModal from "../../components/Modals/EditProjectModal";

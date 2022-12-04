@@ -5,9 +5,9 @@ import useAppDispatch from "../../hooks/useAppDispatch";
 import { Button } from "@mui/material";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import { ArrowForward } from "@mui/icons-material";
 import emptyPhoto from "../../assets/emptyphoto.png";
 import "./TodoItem.scss";
-import { ArrowForward } from "@mui/icons-material";
 
 const TodoItem = ({ todo, projectId }) => {
   const dispatch = useAppDispatch();
