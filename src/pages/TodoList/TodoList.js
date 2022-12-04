@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { TextField } from "@mui/material";
-import { getTodos, editTodos } from "../../redux/actions/actionCreator";
+import {
+  getTodos,
+  editTodos,
+  getProjects,
+} from "../../redux/actions/actionCreator";
 import SearchIcon from "@mui/icons-material/Search";
 import useAppSelector from "../../hooks/useAppSelector";
 import Loader from "../../components/Loader/Loader";
@@ -15,27 +19,42 @@ const TodoList = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [search, setSearch] = useState("");
   const { todos } = useAppSelector((store) => store.todos);
+  const { projects } = useAppSelector((store) => store.projects);
+  const [parentProject, setParentProject] = useState(null);
   const { isLoadingTodos, ubdateTodos } = useAppSelector(
     (store) => store.loadState
   );
-  const { name } = useParams();
-
   const dispatch = useDispatch();
+
+  const { projectId } = useParams();
 
   useEffect(() => {
     dispatch(getTodos());
   }, [dispatch, ubdateTodos]);
 
+  useEffect(() => {
+    dispatch(getProjects());
+  }, [dispatch]);
+
+  useEffect(() => {
+    projects?.map((project) => {
+      if (project?.projectId === projectId) {
+        setParentProject(project);
+      }
+      return null;
+    });
+  }, [projects, projectId]);
+
   const queueTodos = todos.filter(
-    (todo) => todo?.status === "Queue" && todo?.projectName === name
+    (todo) => todo?.status === "Queue" && todo?.projectId === projectId
   );
 
   const developmentTodos = todos.filter(
-    (todo) => todo?.status === "Development" && todo?.projectName === name
+    (todo) => todo?.status === "Development" && todo?.projectId === projectId
   );
 
   const doneTodos = todos.filter(
-    (todo) => todo?.status === "Done" && todo?.projectName === name
+    (todo) => todo?.status === "Done" && todo?.projectId === projectId
   );
 
   // Drag and Drop
@@ -110,7 +129,7 @@ const TodoList = () => {
     setTimeout(() => {
       setCurrentItem(null);
       setFinishBoard(null);
-    }, 1500);
+    }, 1000);
   }, [dispatch, currentItem, finishBoard, finishBoard?.title]);
 
   return (
@@ -118,7 +137,7 @@ const TodoList = () => {
       <div className="todolist_container">
         <div className="todolist_content">
           <div className="project_header">
-            <span className="project_name_text">{name}</span>
+            <span className="project_name_text">{parentProject?.name}</span>
             <div className="btn_container">
               <div className={showSearch ? "search_container" : null}>
                 {!showSearch ? (
@@ -170,7 +189,11 @@ const TodoList = () => {
                       return search.toLowerCase() === ""
                         ? item
                         : item.title.toLowerCase().includes(search) ||
-                            item.number.includes(search);
+                            item.number.includes(search) ||
+                            (
+                              item.title.charAt(0).toUpperCase() +
+                              item.title.slice(1)
+                            ).includes(search);
                     })
                     .map((item, idx) => (
                       <div
@@ -182,7 +205,11 @@ const TodoList = () => {
                         draggable={true}
                         key={idx}
                       >
-                        <TodoItem key={item?.id} todo={item} name={name} />
+                        <TodoItem
+                          key={item?.id}
+                          todo={item}
+                          projectId={projectId}
+                        />
                       </div>
                     ))}
                 </div>
@@ -194,7 +221,7 @@ const TodoList = () => {
       <AddTodoModal
         open={showAddTodoModal}
         setOpen={setShowTodoModal}
-        name={name}
+        projectId={projectId}
       />
     </>
   );

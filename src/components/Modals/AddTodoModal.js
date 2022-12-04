@@ -4,12 +4,12 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import useAppDispatch from "../../hooks/useAppDispatch";
 import { toast } from "react-toastify";
+import { createTodo } from "../../redux/actions/actionCreator";
+import useAppDispatch from "../../hooks/useAppDispatch";
 import MySelect from "../Select/Select";
 import MyDatePicker from "../DatePickers/DatePicker";
 import emptyPhoto from "../../assets/emptyphoto.png";
-import { createTodo } from "../../redux/actions/actionCreator";
 
 const style = {
   position: "absolute",
@@ -25,7 +25,7 @@ const style = {
   borderRadius: "10px",
 };
 
-const AddTodoModal = ({ open, setOpen, name }) => {
+const AddTodoModal = ({ open, setOpen, projectId }) => {
   const [priority, setPriority] = useState("Normal");
   const [finishDate, setFinishDate] = useState(new Date());
   const [file, setFile] = useState("");
@@ -81,12 +81,12 @@ const AddTodoModal = ({ open, setOpen, name }) => {
           number,
           title,
           description,
-          createdAt: new Date(),
-          finishDate: new Date(finishDate),
+          createdAt: new Date().toISOString(),
+          finishDate: new Date(finishDate).toISOString(),
           priority,
           imgUrl: uploadImg,
           status: "Queue",
-          projectName: name,
+          projectId: projectId,
           completed: false,
           todoId: Math.random().toString(36).substr(2, 9),
           type: "todo",
@@ -141,11 +141,9 @@ const AddTodoModal = ({ open, setOpen, name }) => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <TextField
-                id="outlined-basic"
-                label="Enter task description"
-                variant="outlined"
-                fullWidth
+              <textarea
+                className="comment-form-textarea"
+                placeholder="Enter todo description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />

@@ -9,7 +9,7 @@ const ProjectItem = ({ project, handleEdit, handleDelete }) => {
         <span className="project_name">{project.name}</span>
         <span className="project_info">{project.description}</span>
         <div>
-          <Link to={`/todolist/${project?.name}`}>
+          <Link to={`/todolist/${project?.projectId}`}>
             <button className="btn_content">More...</button>
           </Link>
           <button

@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./TodoItem.scss";
-import emptyPhoto from "../../assets/emptyphoto.png";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import useAppDispatch from "../../hooks/useAppDispatch";
 import { ubdateTodo } from "../../redux/actions/actionCreator";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import { Button } from "@mui/material";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import emptyPhoto from "../../assets/emptyphoto.png";
+import "./TodoItem.scss";
+import { ArrowForward } from "@mui/icons-material";
 
-const TodoItem = ({ todo, name }) => {
+const TodoItem = ({ todo, projectId }) => {
   const dispatch = useAppDispatch();
 
   const handleChange = (e) => {
@@ -16,6 +19,18 @@ const TodoItem = ({ todo, name }) => {
         completed: e.target.checked,
       })
     );
+  };
+
+  const handleBack = () => {
+    todo?.status === "Development"
+      ? dispatch(ubdateTodo({ ...todo, status: "Queue" }))
+      : dispatch(ubdateTodo({ ...todo, status: "Development" }));
+  };
+
+  const handleGo = () => {
+    todo?.status === "Queue"
+      ? dispatch(ubdateTodo({ ...todo, status: "Development" }))
+      : dispatch(ubdateTodo({ ...todo, status: "Done" }));
   };
 
   return (
@@ -40,8 +55,24 @@ const TodoItem = ({ todo, name }) => {
         />
       </div>
       <span className="todo_title">{todo?.title}</span>
+      <div className="arrow_container">
+        <Button
+          onClick={handleBack}
+          startIcon={<ArrowBack />}
+          className={`btn_content ${
+            todo?.status === "Queue" ? "btn_hidden" : null
+          }`}
+        ></Button>
+        <Button
+          onClick={handleGo}
+          startIcon={<ArrowForward />}
+          className={`btn_content ${
+            todo?.status === "Done" ? "btn_hidden" : null
+          }`}
+        ></Button>
+      </div>
       <div className="buttons_section">
-        <Link to={`/todoitem/${todo?.id}/${name}`}>
+        <Link to={`/todoitem/${projectId}/${todo?.id}`}>
           <button className="btn_content">More...</button>
         </Link>
         <div className="icon_container">

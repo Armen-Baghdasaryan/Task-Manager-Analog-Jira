@@ -19,12 +19,12 @@ const MainPage = () => {
   const [editItem, setEditItem] = useState({});
   const [showSearch, setShowSearch] = useState(false);
   const [search, setSearch] = useState("");
-
-  const dispatch = useAppDispatch();
   const { projects } = useAppSelector((store) => store.projects);
   const { isLoadingProjects, ubdateProjects } = useAppSelector(
     (store) => store.loadState
   );
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getProjects());
@@ -77,7 +77,11 @@ const MainPage = () => {
             ?.filter((project) => {
               return search.toLowerCase() === ""
                 ? project
-                : project.name.toLowerCase().includes(search);
+                : project.name.toLowerCase().includes(search) ||
+                    (
+                      project.name.charAt(0).toUpperCase() +
+                      project.name.slice(1)
+                    ).includes(search);
             })
             .map((project) => (
               <ProjectItem

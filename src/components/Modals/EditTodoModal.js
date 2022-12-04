@@ -39,6 +39,7 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
 
   useEffect(() => {
     setPriority(editItem?.priority);
+    setFinishDate(new Date(editItem?.finishDate));
     setUploadImg(editItem?.imgUrl);
     setNumber(editItem?.number);
     setTitle(editItem?.title);
@@ -90,15 +91,15 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (number && title && description) {
+    if (number && title && description && finishDate) {
       dispatch(
         editTodos({
           ...editItem,
           number,
           title,
           description,
-          ubdatedAt: new Date(),
-          finishDate: finishDate.toString() || editItem?.finishDate,
+          ubdatedAt: new Date().toISOString(),
+          finishDate: new Date(finishDate).toISOString(),
           priority,
           imgUrl: uploadImg,
         })
@@ -150,11 +151,9 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <TextField
-                id="outlined-basic"
-                label="Enter task description"
-                variant="outlined"
-                fullWidth
+              <textarea
+                className="comment-form-textarea"
+                placeholder="Edit todo description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />

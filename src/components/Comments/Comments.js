@@ -1,14 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import useAppDispatch from "../../hooks/useAppDispatch";
-import { getTodos, ubdateTodo } from "../../redux/actions/actionCreator";
+import { ubdateTodo } from "../../redux/actions/actionCreator";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import "./Comments.scss";
 
-const Comments = ({ currentUserId, currentTodo }) => {
+const Comments = ({ currentUserId, currentTodo, isUbdate, setIsUbdate }) => {
   const [activeComment, setActiveComment] = useState(null);
   const [visiable, setVisiable] = useState(false);
-  const [isUbdate, setIsUbdate] = useState(false);
   const [curTodo, setCurTodo] = useState(null);
   const [curUser, setCurUser] = useState(null);
   const dispatch = useAppDispatch();
@@ -29,10 +28,6 @@ const Comments = ({ currentUserId, currentTodo }) => {
     );
     setCurUser(curentUser);
   }, [currentTodo, randomUsers]);
-
-  useEffect(() => {
-    dispatch(getTodos());
-  }, [dispatch, isUbdate]);
 
   const rootComments = curTodo?.comments?.filter(
     (backendComment) => backendComment.parentId === "null"
@@ -109,7 +104,7 @@ const Comments = ({ currentUserId, currentTodo }) => {
   return (
     <div className="comments">
       <div className="comments-title" onClick={handleShow}>
-        Comments..
+        {!visiable ? "Comments" : "Hide"} :
         <span className="comments_count">{curTodo?.comments?.length}</span>
       </div>
       {visiable && (

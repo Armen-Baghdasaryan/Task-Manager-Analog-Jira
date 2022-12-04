@@ -1,36 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import moment from "moment";
+import { successTodos } from "../../redux/actions/actionCreator";
+import { getTodos } from "../../redux/actions/actionCreator";
+import FormSubtask from "../../components/SubTask/FormSubtask";
+import SubTask from "../../components/SubTask/SubTask";
+import DeleteModal from "../../components/Modals/DeleteTodoModal";
+import EditTodoModal from "../../components/Modals/EditTodoModal";
+import Comments from "../../components/Comments/Comments";
+import useAppDispatch from "../../hooks/useAppDispatch";
 import useAppSelector from "../../hooks/useAppSelector";
 import emptyPhoto from "../../assets/emptyphoto.png";
 import "./TodoItemById.scss";
-import DeleteModal from "../../components/Modals/DeleteTodoModal";
-import useAppDispatch from "../../hooks/useAppDispatch";
-import { successTodos } from "../../redux/actions/actionCreator";
-import EditTodoModal from "../../components/Modals/EditTodoModal";
-import Comments from "../../components/Comments/Comments";
 
 const TodoItemById = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [currentTodo, setCurrentTodo] = useState({});
-  const { id, name } = useParams();
+  const [currentTodo, setCurrentTodo] = useState(null);
+  const [currentTask, setCurrentTask] = useState(null);
+  const [isUbdate, setIsUbdate] = useState(false);
+  const [visiable, setVisiable] = useState(false);
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const { id, projectId } = useParams();
   const { todos } = useAppSelector((store) => store.todos);
+
   const { isSuccessTodo } = useAppSelector((store) => store.loadState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // const createdAt = new Date(comment.createdAt).toLocaleDateString();
+  const createdDate = moment(
+    new Date(currentTodo?.createdAt).toLocaleDateString()
+  ).format("DD-MM-YYYY");
+
+  const finishDate = moment(
+    new Date(currentTodo?.finishDate).toLocaleDateString()
+  ).format("DD-MM-YYYY");
+
+  const timeAgo = moment(currentTodo?.createdAt).fromNow();
+
+  moment().startOf("minute").fromNow();
+  moment().endOf("day").fromNow();
+  moment().startOf("hour").fromNow();
 
   useEffect(() => {
     if (isSuccessTodo) {
-      navigate(`/todolist/${name}`);
+      navigate(`/todolist/${projectId}`);
       dispatch(successTodos(false));
     }
-  }, [isSuccessTodo, name, navigate, dispatch]);
+  }, [isSuccessTodo, projectId, navigate, dispatch]);
 
   useEffect(() => {
     todos?.map((todo) => todo.id === id && setCurrentTodo(todo));
   }, [id, todos]);
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, [dispatch, isUbdate]);
+
+  const handleEdit = (task) => {
+    setVisiable(true);
+    setCurrentTask(task);
+    window.scrollTo(450, 450);
+  };
+
+  const handleVisiable = () => {
+    setVisiable(!visiable);
+    setTitle("");
+    setDescription("");
+    setCurrentTask(null);
+  };
 
   return (
     <>
@@ -38,7 +77,7 @@ const TodoItemById = () => {
         <div className="todo_id_content">
           <section className="item_info_section">
             <div className="item_buttons_container">
-              <Link to={`/todolist/${name}`}>
+              <Link to={`/todolist/${projectId}`}>
                 <button className="btn_content">Back</button>
               </Link>
               <div>
@@ -66,13 +105,13 @@ const TodoItemById = () => {
               Description - <span>{currentTodo?.description}</span>
             </div>
             <div>
-              Created Date - <span>{currentTodo?.createdAt?.seconds}</span>
+              Created Date - <span>{createdDate}</span>
             </div>
             <div>
-              Time at work - <span>{"6 hour 15 minute"}</span>
+              Time at work - <span>{timeAgo}</span>
             </div>
             <div>
-              Finish date - <span>{"24/12/2022"}</span>
+              Finish date - <span>{finishDate}</span>
             </div>
             <div>
               Priority -{" "}
@@ -83,10 +122,37 @@ const TodoItemById = () => {
             <div>
               Status - <span>{currentTodo?.status}</span>
             </div>
-            
-            <div> 
-              <Comments currentUserId="1" currentTodo={currentTodo} /> {/* currentUserId: currentUser.id*/}
-            </div>
+            <FormSubtask
+              visiable={visiable}
+              handleVisiable={handleVisiable}
+              setVisiable={setVisiable}
+              isUbdate={isUbdate}
+              setIsUbdate={setIsUbdate}
+              currentTodo={currentTodo}
+              currentTask={currentTask}
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+            />
+
+            {currentTodo?.subTodos?.map((task) => (
+              <SubTask
+                setVisiable={setVisiable}
+                isUbdate={isUbdate}
+                handleEdit={handleEdit}
+                setIsUbdate={setIsUbdate}
+                currentTodo={currentTodo}
+                key={task?.id}
+                task={task}
+              />
+            ))}
+            <Comments
+              currentUserId="1"
+              currentTodo={currentTodo}
+              isUbdate={isUbdate}
+              setIsUbdate={setIsUbdate}
+            />
           </section>
 
           <section className="item_img_section">

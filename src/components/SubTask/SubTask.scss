@@ -1,0 +1,43 @@
+.subtask_container {
+  background-color: rgb(242, 212, 212);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.btn_add_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtask_completed {
+  background-color: rgb(209, 239, 180);
+}
+
+.subTask_btn_container {
+  margin-bottom: 10px;
+}
+
+.subtask_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid;
+  padding-bottom: 10px;
+}
+
+.chbox_item_subtask {
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+}
+
+.subtask_description {
+  font-size: 16px !important;
+  font-weight: normal !important;
+}
+
+.subtask_btn_container {
+  display: flex;
+  justify-content: flex-end;
+}

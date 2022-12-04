@@ -40,7 +40,7 @@ const EditProjectModal = ({ open, setOpen, project }) => {
           ...project,
           name,
           description,
-          editedAt: new Date(),
+          editedAt: new Date().toISOString(),
         })
       );
 
@@ -80,11 +80,9 @@ const EditProjectModal = ({ open, setOpen, project }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <TextField
-                id="outlined-basic"
-                label="Edit project description"
-                variant="outlined"
-                fullWidth
+              <textarea
+                className="comment-form-textarea"
+                placeholder="Edit project description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />

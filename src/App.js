@@ -8,8 +8,8 @@ const App = () => {
     <>
       <Routes>
         <Route index element={<MainPage />} />
-        <Route path="todolist/:name" element={<TodoList />} />
-        <Route path="todoitem/:id/:name" element={<TodoItemById />} />
+        <Route path="todolist/:projectId" element={<TodoList />} />
+        <Route path="todoitem/:projectId/:id" element={<TodoItemById />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

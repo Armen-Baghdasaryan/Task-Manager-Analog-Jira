@@ -35,7 +35,7 @@ const AddProjectModal = ({ open, setOpen }) => {
           description,
           projectId: Math.random().toString(36).substr(2, 9),
           type: "project",
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
         })
       );
       setName("");
@@ -74,11 +74,9 @@ const AddProjectModal = ({ open, setOpen }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <TextField
-                id="outlined-basic"
-                label="Enter project description"
-                variant="outlined"
-                fullWidth
+              <textarea
+                className="comment-form-textarea"
+                placeholder="Enter project description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />

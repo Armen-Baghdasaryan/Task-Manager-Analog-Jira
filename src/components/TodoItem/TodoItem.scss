@@ -23,6 +23,16 @@
   align-items: center;
 }
 
+.arrow_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn_hidden {
+  visibility: hidden;
+}
+
 .buttons_section {
   display: flex;
   align-items: center;
