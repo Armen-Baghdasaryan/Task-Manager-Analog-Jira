@@ -47,7 +47,7 @@ const MainPage = () => {
           <h3>Projects</h3>
           <div className="btn_container">
             <button className="btn_content" onClick={() => setOpen(true)}>
-              Add Projectt
+              Add Project
             </button>
           </div>
           <div className={showSearch ? "search_container" : null}>
