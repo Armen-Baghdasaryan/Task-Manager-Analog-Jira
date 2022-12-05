@@ -16,6 +16,7 @@ const FormSubtask = ({
   description,
   setDescription,
   setVisiable,
+  refElement,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -88,6 +89,7 @@ const FormSubtask = ({
       {visiable && (
         <form onSubmit={handleSubmit}>
           <textarea
+            ref={refElement}
             className="comment-form-textarea subtask_title"
             placeholder="Task Title"
             value={title}

@@ -4,8 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { TextField } from "@mui/material";
 import {
   getTodos,
-  editTodos,
   getProjects,
+  ubdateTodo,
 } from "../../redux/actions/actionCreator";
 import useAppSelector from "../../hooks/useAppSelector";
 import SearchIcon from "@mui/icons-material/Search";
@@ -118,18 +118,23 @@ const TodoList = () => {
   };
 
   useEffect(() => {
-    currentItem &&
-      finishBoard &&
+    if (currentItem && finishBoard) {
       dispatch(
-        editTodos({
+        ubdateTodo({
           ...currentItem,
           status: finishBoard?.title,
         })
       );
-    setTimeout(() => {
-      setCurrentItem(null);
-      setFinishBoard(null);
-    }, 1000);
+      setTimeout(() => {
+        setCurrentItem(null);
+        setFinishBoard(null);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setCurrentItem(null);
+        setFinishBoard(null);
+      }, 1000);
+    }
   }, [dispatch, currentItem, finishBoard, finishBoard?.title]);
 
   return (

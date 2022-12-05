@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { editTodos } from "../../redux/actions/actionCreator";
+import { ubdateTodo } from "../../redux/actions/actionCreator";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { toast } from "react-toastify";
 import MySelect from "../Select/Select";
@@ -25,7 +25,7 @@ const style = {
   borderRadius: "10px",
 };
 
-const EditTodoModal = ({ open, setOpen, editItem }) => {
+const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
   const [priority, setPriority] = useState("Normal");
   const [finishDate, setFinishDate] = useState("");
   const [file, setFile] = useState("");
@@ -93,7 +93,7 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
 
     if (number && title && description && finishDate) {
       dispatch(
-        editTodos({
+        ubdateTodo({
           ...editItem,
           number,
           title,
@@ -112,6 +112,7 @@ const EditTodoModal = ({ open, setOpen, editItem }) => {
       setPriority(editItem?.priority);
       setFile("");
       setUploadImg(editItem?.imgUrl);
+      setIsUbdate(!isUbdate);
       setOpen(false);
     } else {
       toast("All fields is required!");

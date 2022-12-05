@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { successTodos } from "../../redux/actions/actionCreator";
@@ -24,10 +24,11 @@ const TodoItemById = () => {
   const [title, setTitle] = useState("");
   const { id, projectId } = useParams();
   const { todos } = useAppSelector((store) => store.todos);
-
   const { isSuccessTodo } = useAppSelector((store) => store.loadState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const refElement = useRef();
 
   const createdDate = moment(
     new Date(currentTodo?.createdAt).toLocaleDateString()
@@ -57,7 +58,9 @@ const TodoItemById = () => {
   const handleEdit = (task) => {
     setVisiable(true);
     setCurrentTask(task);
-    window.scrollTo(450, 450);
+    setTimeout(() => {
+      refElement?.current?.focus();
+    }, 200);
   };
 
   const handleVisiable = () => {
@@ -119,6 +122,7 @@ const TodoItemById = () => {
               Status - <span>{currentTodo?.status}</span>
             </div>
             <FormSubtask
+              refElement={refElement}
               visiable={visiable}
               handleVisiable={handleVisiable}
               setVisiable={setVisiable}
@@ -175,6 +179,8 @@ const TodoItemById = () => {
         open={openEditModal}
         setOpen={setOpenEditModal}
         editItem={currentTodo}
+        isUbdate={isUbdate}
+        setIsUbdate={setIsUbdate}
       />
       <DeleteModal
         open={openDeleteModal}
