@@ -81,7 +81,8 @@ const MainPage = () => {
                     (
                       project.name.charAt(0).toUpperCase() +
                       project.name.slice(1)
-                    ).includes(search);
+                    ).includes(search) ||
+                    project.name.toUpperCase().includes(search);
             })
             .map((project) => (
               <ProjectItem

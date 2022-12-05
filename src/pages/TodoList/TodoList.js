@@ -198,7 +198,8 @@ const TodoList = () => {
                             (
                               item.title.charAt(0).toUpperCase() +
                               item.title.slice(1)
-                            ).includes(search);
+                            ).includes(search) ||
+                            item.title.toUpperCase().includes(search);
                     })
                     .map((item, idx) => (
                       <div
