@@ -81,7 +81,7 @@ const EditProjectModal = ({ open, setOpen, project }) => {
                 onChange={(e) => setName(e.target.value)}
               />
               <textarea
-                className="comment-form-textarea"
+                className="comment_form_textarea"
                 placeholder="Edit project description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

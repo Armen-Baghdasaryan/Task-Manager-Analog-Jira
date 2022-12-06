@@ -10,12 +10,12 @@
 .todo_id_content {
   max-width: 800px;
   width: 100%;
-  min-height: 500px;
+  min-height: 600px;
   background: linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1);
   border-radius: 15px;
   padding: 20px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   @media (max-width: 580px) {
     flex-direction: column;
     justify-content: flex-start;
@@ -25,15 +25,34 @@
 .item_buttons_container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+}
+
+.item_img_section {
+  @media (max-width: 580px) {
+    margin-top: 20px;
+  }
+}
+
+.item_comment_container {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 580px) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 }
 
 .item_info_section {
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 20px;
+}
+
+.info_container {
+  display: flex;
   padding-right: 20px;
+  flex-direction: column;
+  gap: 20px;
   div {
     font-size: 18px;
     font-weight: bold;
@@ -42,8 +61,42 @@
     font-size: 18px;
     font-weight: normal;
   }
+}
+
+.form_container {
+  display: flex;
+  margin-top: 10px;
   @media (max-width: 580px) {
-    padding-right: 0;
+    margin-top: 20px;
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.comments_title {
+  display: flex;
+  align-items: center;
+  font-size: 14px !important;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  width: max-content;
+  font-weight: normal !important;
+  cursor: pointer;
+}
+
+.comments_title:hover {
+  background-color: rgb(67, 11, 58);
+  color: #fff;
+}
+
+.comments_section {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @media (max-width: 580px) {
+    width: 100%;
   }
 }
 
@@ -63,20 +116,8 @@
   color: #ff0000;
 }
 
-.item_img_section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  @media (max-width: 580px) {
-    margin-top: 20px;
-  }
-}
-
 .todo_id_image {
-  width: 350px;
-  height: 480px;
-  @media (max-width: 480px) {
-    width: 300px;
-    height: 420px;
-  }
+  margin-top: 20px;
+  width: 300px;
+  height: 400px;
 }

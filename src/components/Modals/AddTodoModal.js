@@ -142,7 +142,7 @@ const AddTodoModal = ({ open, setOpen, projectId }) => {
                 onChange={(e) => setTitle(e.target.value)}
               />
               <textarea
-                className="comment-form-textarea"
+                className="comment_form_textarea"
                 placeholder="Enter todo description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

@@ -153,7 +153,7 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
                 onChange={(e) => setTitle(e.target.value)}
               />
               <textarea
-                className="comment-form-textarea"
+                className="comment_form_textarea"
                 placeholder="Edit todo description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

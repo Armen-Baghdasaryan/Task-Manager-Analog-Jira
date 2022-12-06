@@ -80,7 +80,7 @@ const FormSubtask = ({
   };
 
   return (
-    <div>
+    <div className="form_item_container">
       <div className="subTask_btn_container">
         <button className="btn_content" onClick={handleVisiable}>
           {!visiable ? "Add Task" : "Cancel"}
@@ -88,23 +88,25 @@ const FormSubtask = ({
       </div>
       {visiable && (
         <form onSubmit={handleSubmit}>
-          <textarea
-            ref={refElement}
-            className="comment-form-textarea subtask_title"
-            placeholder="Task Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <textarea
-            className="comment-form-textarea"
-            placeholder="Task description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <div className="btn_add_container">
-            <button type="submit" className="btn_content">
-              {!currentTask ? "Add" : "Save"}
-            </button>
+          <div className="text_areas_container">
+            <textarea
+              ref={refElement}
+              className="comment_form_textarea subtask_title"
+              placeholder="Task Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <textarea
+              className="comment_form_textarea"
+              placeholder="Task description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <div className="btn_add_container">
+              <button type="submit" className="btn_content">
+                {!currentTask ? "Add" : "Save"}
+              </button>
+            </div>
           </div>
         </form>
       )}

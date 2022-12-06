@@ -10,7 +10,6 @@ import EditTodoModal from "../../components/Modals/EditTodoModal";
 import Comments from "../../components/Comments/Comments";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import useAppSelector from "../../hooks/useAppSelector";
-import emptyPhoto from "../../assets/emptyphoto.png";
 import "./TodoItemById.scss";
 
 const TodoItemById = () => {
@@ -20,6 +19,7 @@ const TodoItemById = () => {
   const [currentTask, setCurrentTask] = useState(null);
   const [isUbdate, setIsUbdate] = useState(false);
   const [visiable, setVisiable] = useState(false);
+  const [visiableFile, setVisiableFile] = useState(true);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const { id, projectId } = useParams();
@@ -74,7 +74,7 @@ const TodoItemById = () => {
     <>
       <div className="todo_id_container">
         <div className="todo_id_content">
-          <section className="item_info_section">
+          <div className="item_info_section">
             <div className="item_buttons_container">
               <Link to={`/todolist/${projectId}`}>
                 <button className="btn_content">Back</button>
@@ -94,48 +94,82 @@ const TodoItemById = () => {
                 </button>
               </div>
             </div>
-            <div>
-              Task Number - <span>{currentTodo?.number}</span>
+            <div className="item_comment_container">
+              <div className="info_container">
+                <div>
+                  Task Number - <span>{currentTodo?.number}</span>
+                </div>
+                <div>
+                  Title - <span>{currentTodo?.title}</span>
+                </div>
+                <div>
+                  Description - <span>{currentTodo?.description}</span>
+                </div>
+                <div>
+                  Created Date - <span>{createdDate}</span>
+                </div>
+                <div>
+                  Time at work - <span>{timeAgo}</span>
+                </div>
+                <div>
+                  Finish date - <span>{finishDate}</span>
+                </div>
+                <div>
+                  Priority -{" "}
+                  <span className={`${currentTodo?.priority}`}>
+                    {currentTodo?.priority}
+                  </span>
+                </div>
+                <div>
+                  Status - <span>{currentTodo?.status}</span>
+                </div>
+              </div>
+              {currentTodo?.imgUrl && (
+                <div className="item_img_section">
+                  <div
+                    className="comments_title"
+                    onClick={() => setVisiableFile(!visiableFile)}
+                  >
+                    {visiableFile ? "Hide File" : "Show"}
+                  </div>
+                  {visiableFile && (
+                    <a
+                      href={`${
+                        currentTodo?.imgUrl ? currentTodo?.imgUrl : "#"
+                      }`}
+                      target={`${currentTodo?.imgUrl && "blank"}`}
+                    >
+                      <img
+                        alt="img"
+                        className="todo_id_image"
+                        src={currentTodo?.imgUrl}
+                        srcSet={`${currentTodo?.imgUrl} 580w, ${currentTodo?.imgUrl} 1200w`}
+                        // --> srcSet={`${Another Image || Another Image} 580w, ${
+                        //   currentTodo?.imgUrl || Another currentTodo?.imgUrl } 1200w`}
+                      />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
-            <div>
-              Title - <span>{currentTodo?.title}</span>
+          </div>
+          <div className="comments_section">
+            <div className="form_container">
+              <FormSubtask
+                refElement={refElement}
+                visiable={visiable}
+                handleVisiable={handleVisiable}
+                setVisiable={setVisiable}
+                isUbdate={isUbdate}
+                setIsUbdate={setIsUbdate}
+                currentTodo={currentTodo}
+                currentTask={currentTask}
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+              />
             </div>
-            <div>
-              Description - <span>{currentTodo?.description}</span>
-            </div>
-            <div>
-              Created Date - <span>{createdDate}</span>
-            </div>
-            <div>
-              Time at work - <span>{timeAgo}</span>
-            </div>
-            <div>
-              Finish date - <span>{finishDate}</span>
-            </div>
-            <div>
-              Priority -{" "}
-              <span className={`${currentTodo?.priority}`}>
-                {currentTodo?.priority}
-              </span>
-            </div>
-            <div>
-              Status - <span>{currentTodo?.status}</span>
-            </div>
-            <FormSubtask
-              refElement={refElement}
-              visiable={visiable}
-              handleVisiable={handleVisiable}
-              setVisiable={setVisiable}
-              isUbdate={isUbdate}
-              setIsUbdate={setIsUbdate}
-              currentTodo={currentTodo}
-              currentTask={currentTask}
-              title={title}
-              setTitle={setTitle}
-              description={description}
-              setDescription={setDescription}
-            />
-
             {currentTodo?.subTodos?.map((task) => (
               <SubTask
                 setVisiable={setVisiable}
@@ -153,26 +187,7 @@ const TodoItemById = () => {
               isUbdate={isUbdate}
               setIsUbdate={setIsUbdate}
             />
-          </section>
-
-          <section className="item_img_section">
-            <a
-              href={`${currentTodo?.imgUrl ? currentTodo?.imgUrl : "#"}`}
-              target={`${currentTodo?.imgUrl && "blank"}`}
-            >
-              <img
-                alt="img"
-                className="todo_id_image"
-                src={currentTodo?.imgUrl || emptyPhoto}
-                srcSet={`${currentTodo?.imgUrl || emptyPhoto} 580w, ${
-                  currentTodo?.imgUrl || emptyPhoto
-                } 1200w`}
-                //-->
-                // srcSet={`${Another Image || Another Image} 580w, ${
-                //   currentTodo?.imgUrl || emptyPhoto } 1200w`}
-              />
-            </a>
-          </section>
+          </div>
         </div>
       </div>
       <EditTodoModal
