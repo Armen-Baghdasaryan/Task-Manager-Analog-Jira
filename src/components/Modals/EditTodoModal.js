@@ -123,7 +123,7 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
     setNumber(editItem?.number);
     setTitle(editItem?.title);
     setDescription(editItem?.description);
-    setFinishDate("");
+    setFinishDate(new Date(editItem?.finishDate));
     setPriority(editItem?.priority);
     setFile("");
     setUploadImg(editItem?.imgUrl);

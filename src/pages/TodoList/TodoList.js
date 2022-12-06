@@ -18,6 +18,7 @@ const TodoList = () => {
   const [showAddTodoModal, setShowTodoModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [search, setSearch] = useState("");
+  const [activeSection, setActiveSection] = useState("Queue");
   const { todos } = useAppSelector((store) => store.todos);
   const { projects } = useAppSelector((store) => store.projects);
   const [parentProject, setParentProject] = useState(null);
@@ -171,18 +172,46 @@ const TodoList = () => {
 
           {isLoadingTodos && <Loader />}
 
+          <div className="buttons_container_section">
+            {boards.map((item) => (
+              <div
+                key={item.id}
+                className={`button_items ${
+                  item.title === activeSection ? "active_button" : null
+                }`}
+                onClick={() => setActiveSection(item.title)}
+              >
+                {item.title}
+              </div>
+            ))}
+          </div>
+
           <div className="sections_container">
             {boards?.map((board, idx) => (
-              <section
+              <div
                 onDragOver={(e) => dragOverHandler(e)}
                 onDrop={(e) => dropCardHandler(e, board)}
                 key={idx}
+                className="section_container_item"
               >
-                <span className="text_status">{board?.title}</span>
                 {JSON.stringify(board?.items) === "[]" && (
-                  <h5 className="not_todos">No tasks yet</h5>
+                  <h5
+                    className={`"not_todos" ${
+                      board?.title !== activeSection
+                        ? "display_none"
+                        : "display_block"
+                    }`}
+                  >
+                    No tasks yet
+                  </h5>
                 )}
-                <div className="section_item_container">
+                <div
+                  className={`"section_item_container" ${
+                    board?.title !== activeSection
+                      ? "display_none"
+                      : "display_block"
+                  }`}
+                >
                   {board?.items
                     ?.filter((item) => {
                       return search.toLowerCase() === ""
@@ -213,7 +242,7 @@ const TodoList = () => {
                       </div>
                     ))}
                 </div>
-              </section>
+              </div>
             ))}
           </div>
         </div>
