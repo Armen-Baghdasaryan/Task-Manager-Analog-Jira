@@ -45,19 +45,19 @@ const TodoList = () => {
     });
   }, [projects, projectId]);
 
-  const queueTodos = todos.filter(
+  // Drag and Drop
+  const queueTodos = todos?.filter(
     (todo) => todo?.status === "Queue" && todo?.projectId === projectId
   );
 
-  const developmentTodos = todos.filter(
+  const developmentTodos = todos?.filter(
     (todo) => todo?.status === "Development" && todo?.projectId === projectId
   );
 
-  const doneTodos = todos.filter(
+  const doneTodos = todos?.filter(
     (todo) => todo?.status === "Done" && todo?.projectId === projectId
   );
 
-  // Drag and Drop
   const boards = [
     { id: 1, title: "Queue", items: queueTodos },
     { id: 2, title: "Development", items: developmentTodos },
@@ -95,16 +95,15 @@ const TodoList = () => {
       if (b.id === currentBoard.id) {
         return currentBoard;
       }
-
       return b;
     });
-    setFinishBoard(board);
   };
 
   const dropCardHandler = (e, board) => {
     board.items.push(currentItem);
     const currentIndex = currentBoard.items.indexOf(currentItem);
     currentBoard.items.splice(currentIndex, 1);
+
     boards.map((b) => {
       if (b.id === board.id) {
         return board;
@@ -128,12 +127,7 @@ const TodoList = () => {
       setTimeout(() => {
         setCurrentItem(null);
         setFinishBoard(null);
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        setCurrentItem(null);
-        setFinishBoard(null);
-      }, 1000);
+      }, 1200);
     }
   }, [dispatch, currentItem, finishBoard, finishBoard?.title]);
 
