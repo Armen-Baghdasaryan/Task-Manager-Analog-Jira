@@ -64,6 +64,8 @@
 }
 
 .todo_title {
+  display: inline-flex;
+  justify-content: flex-start;
   font-size: 16;
   font-weight: bold;
 }
