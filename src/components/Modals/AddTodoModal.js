@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
-import { storage } from "../../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 import { createTodo } from "../../redux/actions/actionCreator";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import MySelect from "../Select/Select";
 import MyDatePicker from "../DatePickers/DatePicker";
 import emptyPhoto from "../../assets/emptyphoto.png";
+import { upLoadFile } from "../../helpers/upLoadFile";
+import AddFileButton from "../AddFileButton/AddFileButton";
 
 const style = {
   position: "absolute",
@@ -29,47 +29,16 @@ const AddTodoModal = ({ open, setOpen, projectId }) => {
   const [priority, setPriority] = useState("Normal");
   const [finishDate, setFinishDate] = useState(new Date());
   const [file, setFile] = useState("");
-  const [uploadImg, setUploadImg] = useState("");
   const [upLoad, setUpLoad] = useState(null);
+  const [uploadImg, setUploadImg] = useState("");
   const [number, setNumber] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const dispatch = useAppDispatch();
 
-  // Upload image
   useEffect(() => {
-    const upLoadFile = () => {
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUpLoad(progress);
-          switch (snapshot.state) {
-            case "paused":
-              break;
-            case "running":
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setUploadImg(downloadURL);
-          });
-        }
-      );
-    };
-    file && upLoadFile();
+    file && upLoadFile(file, setUpLoad, setUploadImg);
   }, [file]);
 
   const handleSubmit = (e) => {
@@ -84,7 +53,6 @@ const AddTodoModal = ({ open, setOpen, projectId }) => {
           createdAt: new Date().toISOString(),
           finishDate: new Date(finishDate).toISOString(),
           priority,
-          imgUrl: uploadImg,
           status: "Queue",
           projectId: projectId,
           completed: false,
@@ -92,6 +60,11 @@ const AddTodoModal = ({ open, setOpen, projectId }) => {
           type: "todo",
           comments: [],
           subTodos: [],
+          files: [{
+            id: Math.random().toString(36).substr(2, 9),
+            createdAt: new Date().toISOString(),
+            imgUrl: uploadImg,
+          }],
         })
       );
 
@@ -162,18 +135,17 @@ const AddTodoModal = ({ open, setOpen, projectId }) => {
                 setFinishDate={setFinishDate}
               />
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  sx={{ marginRight: "20px" }}
-                  id="file"
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                <img
-                  alt="img"
-                  src={uploadImg || emptyPhoto}
-                  width={55}
-                  height={55}
-                />
+                <Box sx={{ marginRight: "20px" }}>
+                  <AddFileButton setFile={setFile} />
+                </Box>
+                <Box>
+                  <img
+                    alt="img"
+                    src={uploadImg || emptyPhoto}
+                    width={45}
+                    height={45}
+                  />
+                </Box>
               </Box>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <button

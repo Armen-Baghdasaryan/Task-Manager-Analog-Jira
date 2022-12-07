@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
-import { storage } from "../../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { ubdateTodo } from "../../redux/actions/actionCreator";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { toast } from "react-toastify";
 import MySelect from "../Select/Select";
 import MyDatePicker from "../DatePickers/DatePicker";
-import emptyPhoto from "../../assets/emptyphoto.png";
 
 const style = {
   position: "absolute",
@@ -28,9 +25,6 @@ const style = {
 const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
   const [priority, setPriority] = useState("Normal");
   const [finishDate, setFinishDate] = useState("");
-  const [file, setFile] = useState("");
-  const [uploadImg, setUploadImg] = useState("");
-  const [upLoad, setUpLoad] = useState(null);
   const [number, setNumber] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -40,53 +34,16 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
   useEffect(() => {
     setPriority(editItem?.priority);
     setFinishDate(new Date(editItem?.finishDate));
-    setUploadImg(editItem?.imgUrl);
     setNumber(editItem?.number);
     setTitle(editItem?.title);
     setDescription(editItem?.description);
   }, [
     editItem?.priority,
     editItem?.finishDate,
-    editItem?.imgUrl,
     editItem?.number,
     editItem?.title,
     editItem?.description,
   ]);
-
-  // Upload image
-  useEffect(() => {
-    const upLoadFile = () => {
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUpLoad(progress);
-          switch (snapshot.state) {
-            case "paused":
-              break;
-            case "running":
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setUploadImg(downloadURL);
-          });
-        }
-      );
-    };
-    file && upLoadFile();
-  }, [file]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,17 +58,14 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
           ubdatedAt: new Date().toISOString(),
           finishDate: new Date(finishDate).toISOString(),
           priority,
-          imgUrl: uploadImg,
         })
       );
 
       setNumber(editItem?.number);
       setTitle(editItem?.title);
       setDescription(editItem?.description);
-      setFinishDate("");
+      setFinishDate(new Date(editItem?.finishDate));
       setPriority(editItem?.priority);
-      setFile("");
-      setUploadImg(editItem?.imgUrl);
       setIsUbdate(!isUbdate);
       setOpen(false);
     } else {
@@ -125,8 +79,6 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
     setDescription(editItem?.description);
     setFinishDate(new Date(editItem?.finishDate));
     setPriority(editItem?.priority);
-    setFile("");
-    setUploadImg(editItem?.imgUrl);
     setOpen(false);
   };
 
@@ -172,28 +124,8 @@ const EditTodoModal = ({ open, setOpen, editItem, isUbdate, setIsUbdate }) => {
                 finishDate={finishDate}
                 setFinishDate={setFinishDate}
               />
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  sx={{ marginRight: "20px" }}
-                  id="file"
-                  type={"file"}
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                <img
-                  alt="img"
-                  src={uploadImg || emptyPhoto}
-                  width={55}
-                  height={55}
-                />
-              </Box>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <button
-                  disabled={upLoad !== null && upLoad < 100}
-                  type="submit"
-                  className={`btn_content btn_margin ${
-                    upLoad !== null && upLoad < 100 ? "btn_disabled" : null
-                  }`}
-                >
+                <button type="submit" className={`btn_content btn_margin`}>
                   Save
                 </button>
                 <button className="btn_content" onClick={handleClose}>

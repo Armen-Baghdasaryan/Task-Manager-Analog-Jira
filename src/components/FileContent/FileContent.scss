@@ -1,0 +1,37 @@
+.item_img_container {
+  margin: 0 10px 10px;
+}
+
+.img_container {
+  min-width: 150px;
+  min-height: 150px;
+}
+
+.add_file_content {
+  padding: 10px;
+  background-color: rgb(146, 177, 246);
+  border-radius: 8px;
+}
+
+.add_button_container {
+  display: flex;
+  align-items: center;
+}
+
+.img_icon_container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px 0 20px;
+}
+
+.btn_container_add {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.todo_id_image {
+  width: 150px;
+  height: 150px;
+}

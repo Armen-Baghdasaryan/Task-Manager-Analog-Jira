@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import { successTodos } from "../../redux/actions/actionCreator";
+import { successTodos, ubdateTodo } from "../../redux/actions/actionCreator";
 import { getTodos } from "../../redux/actions/actionCreator";
+import { upLoadFile } from "../../helpers/upLoadFile";
 import FormSubtask from "../../components/SubTask/FormSubtask";
 import SubTask from "../../components/SubTask/SubTask";
 import DeleteModal from "../../components/Modals/DeleteTodoModal";
@@ -10,6 +11,9 @@ import EditTodoModal from "../../components/Modals/EditTodoModal";
 import Comments from "../../components/Comments/Comments";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import useAppSelector from "../../hooks/useAppSelector";
+import AddFileButton from "../../components/AddFileButton/AddFileButton";
+import FileContent from "../../components/FileContent/FileContent";
+import emptyPhoto from "../../assets/emptyphoto.png";
 import "./TodoItemById.scss";
 
 const TodoItemById = () => {
@@ -20,6 +24,9 @@ const TodoItemById = () => {
   const [isUbdate, setIsUbdate] = useState(false);
   const [visiable, setVisiable] = useState(false);
   const [visiableFile, setVisiableFile] = useState(true);
+  const [file, setFile] = useState("");
+  const [upLoad, setUpLoad] = useState(null);
+  const [uploadImg, setUploadImg] = useState("");
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const { id, projectId } = useParams();
@@ -29,6 +36,10 @@ const TodoItemById = () => {
   const dispatch = useAppDispatch();
 
   const refElement = useRef();
+
+  useEffect(() => {
+    file && upLoadFile(file, setUpLoad, setUploadImg);
+  }, [file]);
 
   const createdDate = moment(
     new Date(currentTodo?.createdAt).toLocaleDateString()
@@ -68,6 +79,28 @@ const TodoItemById = () => {
     setTitle("");
     setDescription("");
     setCurrentTask(null);
+  };
+
+  const handleAddFile = () => {
+    uploadImg &&
+      dispatch(
+        ubdateTodo({
+          ...currentTodo,
+          files: [
+            ...currentTodo?.files,
+            {
+              id: Math.random().toString(36).substr(2, 9),
+              createdAt: new Date().toISOString(),
+              imgUrl: uploadImg && uploadImg,
+            },
+          ],
+        })
+      );
+
+    setUploadImg("");
+    setTimeout(() => {
+      setIsUbdate(!isUbdate);
+    }, 1000);
   };
 
   return (
@@ -124,7 +157,35 @@ const TodoItemById = () => {
                   Status - <span>{currentTodo?.status}</span>
                 </div>
               </div>
-              {currentTodo?.imgUrl && (
+              <div>
+                <div className="add_file_container">
+                  <div className="add_file_content">
+                    <div className="add_button_container">
+                      <AddFileButton setFile={setFile} />
+                      <div className="file_field">
+                        <img
+                          alt="img"
+                          width={45}
+                          height={45}
+                          src={uploadImg || emptyPhoto}
+                        />
+                      </div>
+                    </div>
+                    <div className="btn_container_add">
+                      <button
+                        onClick={handleAddFile}
+                        disabled={upLoad !== null && upLoad < 100}
+                        className={`btn_content btn_margin ${
+                          upLoad !== null && upLoad < 100
+                            ? "btn_disabled"
+                            : null
+                        }`}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div className="item_img_section">
                   <div
                     className="comments_title"
@@ -132,25 +193,22 @@ const TodoItemById = () => {
                   >
                     {visiableFile ? "Hide File" : "Show"}
                   </div>
-                  {visiableFile && (
-                    <a
-                      href={`${
-                        currentTodo?.imgUrl ? currentTodo?.imgUrl : "#"
-                      }`}
-                      target={`${currentTodo?.imgUrl && "blank"}`}
-                    >
-                      <img
-                        alt="img"
-                        className="todo_id_image"
-                        src={currentTodo?.imgUrl}
-                        srcSet={`${currentTodo?.imgUrl} 580w, ${currentTodo?.imgUrl} 1200w`}
-                        // --> srcSet={`${Another Image || Another Image} 580w, ${
-                        //   currentTodo?.imgUrl || Another currentTodo?.imgUrl } 1200w`}
-                      />
-                    </a>
-                  )}
+
+                  <div className="all_image_section">
+                    {" "}
+                    {visiableFile &&
+                      currentTodo?.files?.map((file) => (
+                        <FileContent
+                          key={file?.id}
+                          file={file}
+                          currentTodo={currentTodo}
+                          isUbdate={isUbdate}
+                          setIsUbdate={setIsUbdate}
+                        />
+                      ))}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
           <div className="comments_section">

@@ -49,7 +49,7 @@ const TodoItem = ({ todo, projectId }) => {
         <span className="todo_number">No - {todo?.number}</span>
         <img
           alt="img"
-          src={todo?.imgUrl || emptyPhoto}
+          src={todo?.files[0]?.imgUrl || emptyPhoto}
           width={30}
           height={30}
         />
