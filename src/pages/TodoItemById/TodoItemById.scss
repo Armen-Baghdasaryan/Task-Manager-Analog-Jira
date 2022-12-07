@@ -29,8 +29,8 @@
   flex-wrap: wrap;
   max-width: 400px;
   @media (max-width: 580px) {
-    max-width: 600px;
     justify-content: center;
+    max-width: 600px;
   }
 }
 
@@ -60,9 +60,8 @@
   flex-direction: column;
   align-items: flex-end;
   @media (max-width: 580px) {
-    margin-top: 20px;
+    width: 100%;
     align-items: flex-start;
-    flex-direction: row;
   }
 }
 
@@ -97,24 +96,19 @@
 }
 
 .form_container {
-  display: flex;
-  margin-top: 10px;
+  margin-top: 20px;
   @media (max-width: 580px) {
-    margin-top: 20px;
     width: 100%;
-    padding: 0;
+    margin-top: 0;
   }
 }
 
 .comments_title {
   display: flex;
-  // justify-content: flex-end;
-  // align-items: center;
   font-size: 14px !important;
   border: 1px solid;
   border-radius: 5px;
   padding: 5px;
-  width: max-content;
   font-weight: normal !important;
   cursor: pointer;
 }

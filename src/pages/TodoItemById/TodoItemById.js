@@ -175,7 +175,7 @@ const TodoItemById = () => {
                       <button
                         onClick={handleAddFile}
                         disabled={upLoad !== null && upLoad < 100}
-                        className={`btn_content btn_margin ${
+                        className={`btn_content ${
                           upLoad !== null && upLoad < 100
                             ? "btn_disabled"
                             : null
@@ -186,28 +186,31 @@ const TodoItemById = () => {
                     </div>
                   </div>
                 </div>
-                <div className="item_img_section">
-                  <div
-                    className="comments_title"
-                    onClick={() => setVisiableFile(!visiableFile)}
-                  >
-                    {visiableFile ? "Hide File" : "Show"}
-                  </div>
 
-                  <div className="all_image_section">
-                    {" "}
-                    {visiableFile &&
-                      currentTodo?.files?.map((file) => (
-                        <FileContent
-                          key={file?.id}
-                          file={file}
-                          currentTodo={currentTodo}
-                          isUbdate={isUbdate}
-                          setIsUbdate={setIsUbdate}
-                        />
-                      ))}
+                {currentTodo?.files?.length >= 1 && currentTodo?.files[0].imgUrl !== "" && (
+                  <div className="item_img_section">
+                    <div
+                      className="comments_title"
+                      onClick={() => setVisiableFile(!visiableFile)}
+                    >
+                      {visiableFile ? "Hide Files" : "Show Files"}
+                    </div>
+
+                    <div className="all_image_section">
+                      {" "}
+                      {visiableFile &&
+                        currentTodo?.files?.map((file) => (
+                          <FileContent
+                            key={file?.id}
+                            file={file}
+                            currentTodo={currentTodo}
+                            isUbdate={isUbdate}
+                            setIsUbdate={setIsUbdate}
+                          />
+                        ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
