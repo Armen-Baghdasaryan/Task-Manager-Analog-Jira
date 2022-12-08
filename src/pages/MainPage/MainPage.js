@@ -7,8 +7,8 @@ import useAppSelector from "../../hooks/useAppSelector";
 import Loader from "../../components/Loader/Loader";
 import AddProjectModal from "../../components/Modals/AddProjectModal";
 import EditProjectModal from "../../components/Modals/EditProjectModal";
-import DeleteModal from "../../components/Modals/DeleteProjectModal";
 import ProjectItem from "../../components/ProjectItem/ProjectItem";
+import DeleteModal from "../../components/Modals/DeleteModal";
 import "./MainPage.scss";
 
 const MainPage = () => {
@@ -101,10 +101,14 @@ const MainPage = () => {
         project={editItem}
       />
       <DeleteModal
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        deleteItem={deleteItem}
-        type="project"
+        props={{
+          open: openDeleteModal,
+          setOpen: setOpenDeleteModal,
+          deleteItem: deleteItem,
+          deleteText: deleteItem?.name,
+          deleteType: "Project",
+          type: "DelProject",
+        }}
       />
     </div>
   );

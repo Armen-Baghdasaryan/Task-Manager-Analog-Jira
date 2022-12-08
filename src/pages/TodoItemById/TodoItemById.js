@@ -6,13 +6,13 @@ import { getTodos } from "../../redux/actions/actionCreator";
 import { upLoadFile } from "../../helpers/upLoadFile";
 import FormSubtask from "../../components/SubTask/FormSubtask";
 import SubTask from "../../components/SubTask/SubTask";
-import DeleteModal from "../../components/Modals/DeleteTodoModal";
 import EditTodoModal from "../../components/Modals/EditTodoModal";
 import Comments from "../../components/Comments/Comments";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import useAppSelector from "../../hooks/useAppSelector";
 import AddFileButton from "../../components/AddFileButton/AddFileButton";
 import FileContent from "../../components/FileContent/FileContent";
+import DeleteModal from "../../components/Modals/DeleteModal";
 import emptyPhoto from "../../assets/emptyphoto.png";
 import "./TodoItemById.scss";
 
@@ -258,10 +258,14 @@ const TodoItemById = () => {
         setIsUbdate={setIsUbdate}
       />
       <DeleteModal
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        deleteItem={currentTodo}
-        type="todo"
+        props={{
+          open: openDeleteModal,
+          setOpen: setOpenDeleteModal,
+          deleteItem: currentTodo,
+          deleteText: currentTodo?.title,
+          deleteType: "Todo",
+          type: "DelTodo",
+        }}
       />
     </>
   );

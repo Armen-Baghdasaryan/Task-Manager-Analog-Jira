@@ -4,11 +4,14 @@ import { ubdateTodo } from "../../redux/actions/actionCreator";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import "./Comments.scss";
+import DeleteModal from "../Modals/DeleteModal";
 
 const Comments = ({ currentUserId, currentTodo, isUbdate, setIsUbdate }) => {
   const [activeComment, setActiveComment] = useState(null);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [visiable, setVisiable] = useState(false);
   const [curTodo, setCurTodo] = useState(null);
+  const [currentId, setCurrenttId] = useState("");
   const [curUser, setCurUser] = useState(null);
   const dispatch = useAppDispatch();
 
@@ -83,18 +86,8 @@ const Comments = ({ currentUserId, currentTodo, isUbdate, setIsUbdate }) => {
   };
 
   const deleteComment = (commentId) => {
-    dispatch(
-      ubdateTodo({
-        ...curTodo,
-        comments: [
-          ...curTodo?.comments?.filter((item) => item?.id !== commentId),
-        ],
-      })
-    );
-
-    setTimeout(() => {
-      setIsUbdate(!isUbdate);
-    }, 1000);
+    setCurrenttId(commentId);
+    setOpenDeleteModal(true);
   };
 
   const handleShow = () => {
@@ -102,33 +95,48 @@ const Comments = ({ currentUserId, currentTodo, isUbdate, setIsUbdate }) => {
   };
 
   return (
-    <div className="comments">
-      <div className="comments-title" onClick={handleShow}>
-        {!visiable ? "Comments" : "Hide"} :
-        <span className="comments_count">{curTodo?.comments?.length}</span>
+    <>
+      <div className="comments">
+        <div className="comments-title" onClick={handleShow}>
+          {!visiable ? "Comments" : "Hide"} :
+          <span className="comments_count">{curTodo?.comments?.length}</span>
+        </div>
+        {visiable && (
+          <>
+            <div className="comment-form-title">Write comment</div>
+            <CommentForm submitLabel="Write" handleSubmit={addComment} />
+            <div className="comments-container">
+              {rootComments?.map((rootComment) => (
+                <Comment
+                  key={rootComment?.id}
+                  comment={rootComment}
+                  replies={getReplies(rootComment?.id)}
+                  activeComment={activeComment}
+                  setActiveComment={setActiveComment}
+                  addComment={addComment}
+                  deleteComment={deleteComment}
+                  updateComment={updateComment}
+                  currentUserId={currentUserId}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
-      {visiable && (
-        <>
-          <div className="comment-form-title">Write comment</div>
-          <CommentForm submitLabel="Write" handleSubmit={addComment} />
-          <div className="comments-container">
-            {rootComments?.map((rootComment) => (
-              <Comment
-                key={rootComment?.id}
-                comment={rootComment}
-                replies={getReplies(rootComment?.id)}
-                activeComment={activeComment}
-                setActiveComment={setActiveComment}
-                addComment={addComment}
-                deleteComment={deleteComment}
-                updateComment={updateComment}
-                currentUserId={currentUserId}
-              />
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+      <DeleteModal
+        props={{
+          open: openDeleteModal,
+          setOpen: setOpenDeleteModal,
+          deleteItem: curTodo,
+          itemId: currentId,
+          deleteText: null,
+          isUbdate,
+          setIsUbdate,
+          deleteType: "Comment",
+          type: "DelComment",
+        }}
+      />
+    </>
   );
 };
 

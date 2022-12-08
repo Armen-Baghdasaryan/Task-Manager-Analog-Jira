@@ -1,27 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { ubdateTodo } from "../../redux/actions/actionCreator";
-import { toast } from "react-toastify";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import "./SubTask.scss";
+import DeleteModal from "../Modals/DeleteModal";
 
 const SubTask = ({ task, currentTodo, isUbdate, setIsUbdate, handleEdit }) => {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleDelete = () => {
-    dispatch(
-      ubdateTodo({
-        ...currentTodo,
-        subTodos: [
-          ...currentTodo?.subTodos?.filter((item) => item?.id !== task.id),
-        ],
-      })
-    );
-    setTimeout(() => {
-      setIsUbdate(!isUbdate);
-      toast("Task was deleted");
-    }, 1000);
+    setOpenDeleteModal(true);
   };
 
   const handleComplete = (e) => {
@@ -72,6 +62,19 @@ const SubTask = ({ task, currentTodo, isUbdate, setIsUbdate, handleEdit }) => {
           />
         </div>
       </div>
+      <DeleteModal
+        props={{
+          open: openDeleteModal,
+          setOpen: setOpenDeleteModal,
+          deleteItem: currentTodo,
+          itemId: task?.id,
+          deleteText: null,
+          isUbdate,
+          setIsUbdate,
+          deleteType: "Subtask",
+          type: "DelSubtask",
+        }}
+      />
     </div>
   );
 };

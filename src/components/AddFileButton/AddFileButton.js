@@ -11,9 +11,9 @@ const AddFileButton = ({ setFile }) => {
           if="file"
           onChange={(e) => setFile(e.target.files[0])}
         />
-        
+
         <div className="input-file-btn">
-          Attach file{" "}
+          Add file{" "}
           <AttachmentIcon sx={{ marginLeft: "10px", color: "black" }} />
         </div>
       </label>
