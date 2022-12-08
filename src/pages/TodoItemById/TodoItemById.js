@@ -87,12 +87,12 @@ const TodoItemById = () => {
         ubdateTodo({
           ...currentTodo,
           files: [
-            ...currentTodo?.files,
             {
               id: Math.random().toString(36).substr(2, 9),
               createdAt: new Date().toISOString(),
               imgUrl: uploadImg && uploadImg,
             },
+            ...currentTodo?.files,
           ],
         })
       );
@@ -174,11 +174,9 @@ const TodoItemById = () => {
                     <div className="btn_container_add">
                       <button
                         onClick={handleAddFile}
-                        disabled={upLoad !== null && upLoad < 100}
+                        disabled={!uploadImg}
                         className={`btn_content ${
-                          upLoad !== null && upLoad < 100
-                            ? "btn_disabled"
-                            : null
+                          !uploadImg || !upLoad ? "btn_disabled" : null
                         }`}
                       >
                         Add
@@ -187,7 +185,8 @@ const TodoItemById = () => {
                   </div>
                 </div>
 
-                {currentTodo?.files?.length >= 1 && currentTodo?.files[0].imgUrl !== "" && (
+                {currentTodo?.files[0]?.imgUrl ||
+                currentTodo?.files[1]?.imgUrl ? (
                   <div className="item_img_section">
                     <div
                       className="comments_title"
@@ -210,7 +209,7 @@ const TodoItemById = () => {
                         ))}
                     </div>
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
