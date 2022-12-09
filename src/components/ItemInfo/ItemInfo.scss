@@ -1,0 +1,108 @@
+.item_info_section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item_buttons_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item_comment_container {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 580px) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.info_container {
+  display: flex;
+  padding-right: 20px;
+  flex-direction: column;
+  gap: 20px;
+  div {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  span {
+    font-size: 18px;
+    font-weight: normal;
+  }
+}
+
+.add_file_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+  min-width: 200px;
+  @media (max-width: 580px) {
+    margin-top: 20px;
+    justify-content: flex-start;
+  }
+}
+
+.add_file_content {
+  max-width: 580px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(187, 197, 217);
+  border-radius: 8px;
+}
+
+.add_button_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file_field {
+  margin-left: 20px;
+}
+
+.btn_container_add {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.item_img_section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  @media (max-width: 580px) {
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
+.comments_title {
+  display: flex;
+  font-size: 14px !important;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: normal !important;
+  cursor: pointer;
+}
+
+.comments_title:hover {
+  background-color: rgb(67, 11, 58);
+  color: #fff;
+}
+
+.all_image_section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  max-width: 400px;
+  @media (max-width: 580px) {
+    justify-content: center;
+    max-width: 600px;
+  }
+}

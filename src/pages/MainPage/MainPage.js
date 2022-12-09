@@ -61,7 +61,7 @@ const MainPage = () => {
                 size="small"
                 color="info"
                 id="outlined-basic"
-                label="Search"
+                label="Search by name"
                 variant="filled"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

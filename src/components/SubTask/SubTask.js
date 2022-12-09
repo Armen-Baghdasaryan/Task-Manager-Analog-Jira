@@ -3,8 +3,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { ubdateTodo } from "../../redux/actions/actionCreator";
 import useAppDispatch from "../../hooks/useAppDispatch";
-import "./SubTask.scss";
 import DeleteModal from "../Modals/DeleteModal";
+import "./SubTask.scss";
 
 const SubTask = ({ task, currentTodo, isUbdate, setIsUbdate, handleEdit }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);

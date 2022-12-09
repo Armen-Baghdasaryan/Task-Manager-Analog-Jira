@@ -1,5 +1,17 @@
 .item_img_container {
   margin: 0 10px 10px;
+  .img_icon_container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px 0;
+    visibility: hidden;
+  }
+}
+
+.item_img_container:hover {
+  .img_icon_container {
+    visibility: visible;
+  }
 }
 
 .img_container {
@@ -8,6 +20,8 @@
 }
 
 .add_file_content {
+  max-width: 580px;
+  width: 100%;
   padding: 10px;
   background-color: rgb(187, 197, 217);
   border-radius: 8px;
@@ -15,13 +29,8 @@
 
 .add_button_container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-}
-
-.img_icon_container {
-  display: flex;
-  justify-content: flex-end;
-  margin: 5px 0 20px;
 }
 
 .btn_container_add {

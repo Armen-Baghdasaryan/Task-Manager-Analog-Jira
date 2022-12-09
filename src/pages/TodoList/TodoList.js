@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { useParams } from "react-router-dom";
 import {
   getTodos,
   getProjects,
   ubdateTodo,
 } from "../../redux/actions/actionCreator";
 import useAppSelector from "../../hooks/useAppSelector";
-import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../../components/Loader/Loader";
 import AddTodoModal from "../../components/Modals/AddTodoModal";
-import TodoItem from "../../components/TodoItem/TodoItem";
+import TodoLIstHeader from "../../components/TodoListHeader/TodoLIstHeader";
+import TodoListContent from "../../components/TodoListContent/TodoListContent";
 import "./TodoList.scss";
 
 const TodoList = () => {
@@ -26,7 +25,6 @@ const TodoList = () => {
     (store) => store.loadState
   );
   const dispatch = useDispatch();
-
   const { projectId } = useParams();
 
   useEffect(() => {
@@ -136,42 +134,17 @@ const TodoList = () => {
     <>
       <div className="todolist_container">
         <div className="todolist_content">
-          <div className="project_header">
-            <span className="project_name_text">{parentProject?.name}</span>
-            <div className="btn_container">
-              <div className={showSearch ? "search_container" : null}>
-                {!showSearch ? (
-                  <SearchIcon
-                    onClick={() => setShowSearch(true)}
-                    className="search_icon"
-                  />
-                ) : (
-                  <TextField
-                    size="small"
-                    color="info"
-                    id="outlined-basic"
-                    label="Search"
-                    variant="filled"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onBlur={(e) => e.isTrusted && setShowSearch(false)}
-                  />
-                )}
-              </div>
-              <button
-                className="btn_content btn_margin"
-                onClick={() => setShowTodoModal(true)}
-              >
-                Add Todo
-              </button>
-              <Link to={"/"}>
-                <button className="btn_content">Back</button>
-              </Link>
-            </div>
-          </div>
-
+          <TodoLIstHeader
+            props={{
+              parentProject,
+              showSearch,
+              setShowSearch,
+              search,
+              setSearch,
+              setShowTodoModal,
+            }}
+          />
           {isLoadingTodos && <Loader />}
-
           <div className="buttons_container_section">
             {boards.map((item) => (
               <div
@@ -185,66 +158,20 @@ const TodoList = () => {
               </div>
             ))}
           </div>
-
-          <div className="sections_container">
-            {boards?.map((board, idx) => (
-              <div
-                onDragOver={(e) => dragOverHandler(e)}
-                onDrop={(e) => dropCardHandler(e, board)}
-                key={idx}
-                className="section_container_item"
-              >
-                {JSON.stringify(board?.items) === "[]" && (
-                  <h5
-                    className={`"not_todos" ${
-                      board?.title !== activeSection
-                        ? "display_none"
-                        : "display_block"
-                    }`}
-                  >
-                    No tasks yet
-                  </h5>
-                )}
-                <div
-                  className={`"section_item_container" ${
-                    board?.title !== activeSection
-                      ? "display_none"
-                      : "display_block"
-                  }`}
-                >
-                  {board?.items
-                    ?.filter((item) => {
-                      return search.toLowerCase() === ""
-                        ? item
-                        : item.title.toLowerCase().includes(search) ||
-                            item.number.includes(search) ||
-                            (
-                              item.title.charAt(0).toUpperCase() +
-                              item.title.slice(1)
-                            ).includes(search) ||
-                            item.title.toUpperCase().includes(search);
-                    })
-                    .map((item, idx) => (
-                      <div
-                        onDragOver={(e) => dragOverHandler(e)}
-                        onDragLeave={(e) => dragLeaveHandler(e)}
-                        onDragStart={(e) => dragStartHandler(e, board, item)}
-                        onDragEnd={(e) => dragEndHandler(e)}
-                        onDrop={(e) => dropHandler(e, board, item)}
-                        draggable={true}
-                        key={idx}
-                      >
-                        <TodoItem
-                          key={item?.id}
-                          todo={item}
-                          projectId={projectId}
-                        />
-                      </div>
-                    ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <TodoListContent
+            props={{
+              boards,
+              dragOverHandler,
+              dropCardHandler,
+              activeSection,
+              search,
+              dragLeaveHandler,
+              dragStartHandler,
+              dragEndHandler,
+              dropHandler,
+              projectId,
+            }}
+          />
         </div>
       </div>
       <AddTodoModal
