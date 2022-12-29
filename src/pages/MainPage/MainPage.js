@@ -9,6 +9,7 @@ import AddProjectModal from "../../components/Modals/AddProjectModal";
 import EditProjectModal from "../../components/Modals/EditProjectModal";
 import ProjectItem from "../../components/ProjectItem/ProjectItem";
 import DeleteModal from "../../components/Modals/DeleteModal";
+import { filterProjects } from "../../helpers/filters";
 import "./MainPage.scss";
 
 const MainPage = () => {
@@ -72,26 +73,15 @@ const MainPage = () => {
         </div>
         <div>
           {isLoadingProjects && <Loader />}
-          {JSON.stringify(projects) === "[]" && <h4>No projects yet...</h4>}
-          {projects
-            ?.filter((project) => {
-              return search.toLowerCase() === ""
-                ? project
-                : project.name.toLowerCase().includes(search) ||
-                    (
-                      project.name.charAt(0).toUpperCase() +
-                      project.name.slice(1)
-                    ).includes(search) ||
-                    project.name.toUpperCase().includes(search);
-            })
-            .map((project) => (
-              <ProjectItem
-                key={project?.id}
-                project={project}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            ))}
+          {!projects.length && <h4>No projects yet...</h4>}
+          {filterProjects(projects, search).map((project) => (
+            <ProjectItem
+              key={project?.id}
+              project={project}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+          ))}
         </div>
       </div>
       <AddProjectModal open={open} setOpen={setOpen} />
